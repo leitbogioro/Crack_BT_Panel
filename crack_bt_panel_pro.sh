@@ -134,4 +134,3 @@ fi
 echo -e "${green}[完成] ${plain}宝塔面板破解版已安装成功！"
 echo "按脚本提供的后台入口、账号、密码，登录宝塔面板并使用！"
 rm -rf crack_bt_panel_pro.sh
-exit 1
