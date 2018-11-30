@@ -104,7 +104,7 @@ crack_bt_panel() {
     export Crack_file=/www/server/panel/class/common.py
     echo -e "${yellow}[注意] ${plain}破解执行中..."
     /etc/init.d/bt stop
-    sed -i $'164s/panelAuth().get_order_status(None)/{\'status\': \True, \'msg\': {\'endtime\': 32503651199}}/g' ${Crack_file}
+    sed -i $'164s/panelAuth.panelAuth().get_order_status(None)/{\'status\': \True, \'msg\': {\'endtime\': 32503651199}}/g' ${Crack_file}
     touch /www/server/panel/data/userInfo.json
     /etc/init.d/bt restart
 }
