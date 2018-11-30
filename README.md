@@ -8,4 +8,4 @@
 <p>如已安装其他种类的面板，或 LNMP 之类的运行环境、一键包，建议备份好数据，重装干净系统再安装</p>
 
 ## 使用方法
-<code>wget -O BT_Panel_Pro.sh https://git.io/fprzD && bash BT_Panel_Pro.sh</code>
+<code>wget -O crack_bt_panel_pro.sh https://git.io/fprzD && bash crack_bt_panel_pro.sh</code>
