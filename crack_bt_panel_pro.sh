@@ -11,10 +11,10 @@ plain='\033[0m'
 #确认安装
 while [ "$go" != 'y' ] && [ "$go" != 'n' ]
 do
-	read -p "你想安装宝塔面板破解版吗？(y/n): " go;
+    read -p "你想安装宝塔面板破解版吗？(y/n): " go;
 done
 if [ "$go" = 'n' ];then
-	exit;
+    exit;
 fi
 
 #检查系统信息
@@ -40,9 +40,9 @@ System_CentOS=`rpm -q centos-release|cut -d- -f1`
 CentOS_Version=`cat /etc/redhat-release|sed -r 's/.* ([0-9]+)\..*/\1/'`
 
 #CentOS 6 专用 python
-py_for_centos="https://raw.githubusercontent.com/leitbogioro/SSR.Go/master/python_for_centos6.sh"
-py_intall="python_for_centos6.sh"
-install_python_for_CentOS6(){
+install_python_for_CentOS6() {
+    py_for_centos="https://raw.githubusercontent.com/leitbogioro/SSR.Go/master/python_for_centos6.sh"
+    py_intall="python_for_centos6.sh"
     yum install wget -y
     wget ${py_for_centos}
     if ! wget ${py_for_centos}; then
@@ -54,9 +54,9 @@ install_python_for_CentOS6(){
 }
 
 #CentOS 7 专用 pip 源
-pip_file="get-pip.py"
-pip_url="https://bootstrap.pypa.io/get-pip.py"
-install_python_for_CentOS7(){
+install_python_for_CentOS7() {
+    pip_file="get-pip.py"
+    pip_url="https://bootstrap.pypa.io/get-pip.py"
     yum install python -y
     curl ${pip_url} -o ${pip_file}
     if ! curl ${pip_url} -o ${pip_file}; then
@@ -78,13 +78,13 @@ install_btPanel_for_APT() {
 }
 
 #破解步骤
-crack_bt_panel {
+crack_bt_panel() {
     export Crack_file=/www/server/panel/class/common.py
     echo '破解执行中...'
-	/etc/init.d/bt stop
-	sed -i $'164s/panelAuth().get_order_status(None)/{\'status\': \True, \'msg\': {\'endtime\': 32503651199}}/g' ${Crack_file}
-	touch /www/server/panel/data/userInfo.json
-	/etc/init.d/bt restart
+    /etc/init.d/bt stop
+    sed -i $'164s/panelAuth().get_order_status(None)/{\'status\': \True, \'msg\': {\'endtime\': 32503651199}}/g' ${Crack_file}
+    touch /www/server/panel/data/userInfo.json
+    /etc/init.d/bt restart
 }
 
 #正式安装
