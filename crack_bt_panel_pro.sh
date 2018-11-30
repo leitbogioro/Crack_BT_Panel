@@ -2,6 +2,7 @@
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # 颜色
+blue='\033[0;34m'
 yellow='\033[0;33m'
 green='\033[0;32m'
 red='\033[0;31m'
@@ -23,8 +24,9 @@ echo -e "${plain}本脚本必须在完全干净的 CentOS/Debian/Ubuntu 系统�
 echo "如已安装更高版本的宝塔面板，请先卸载高版本再安装"
 echo "如已安装其他种类的面板，或 LNMP 之类的运行环境、一键包，建议备份好数据，重装干净系统再安装"
 echo "使用本脚本出现的任何不良后果，本人概不负责"
-echo "联系方式："
-echo "zhihu: https://www.zhihu.com/people/deepdarkfantastic"
+echo ""
+echo -e "${blue}[联系方式]"
+echo -e "${plain}zhihu: https://www.zhihu.com/people/deepdarkfantastic"
 echo "email: net.core@outlook.com"
 echo ""
 
@@ -39,14 +41,14 @@ fi
 
 #检查系统信息
 if [ -f /etc/redhat-release ];then
-        OS='CentOS'
-    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
-        OS='Debian'
-    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
-        OS='Ubuntu'
-    else
-        echo -e "${red}[错误]${plain} 你的操作系统不受支持，请选择在 Ubuntu/Debian/CentOS 操作系统上安装！"
-        exit 1
+    OS='CentOS'
+elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+    OS='Debian'
+elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+    OS='Ubuntu'
+else
+    echo -e "${red}[错误]${plain} 你的操作系统不受支持，请选择在 Ubuntu/Debian/CentOS 操作系统上安装！"
+    exit 1
 fi
 
 #禁用SELinux
