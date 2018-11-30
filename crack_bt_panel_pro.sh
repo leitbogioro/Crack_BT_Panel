@@ -110,23 +110,23 @@ crack_bt_panel() {
 #正式安装
 if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
-	yum update -y
-	yum clean all
-	install_btPanel_for_CentOS
-	install_python_for_CentOS7
-	crack_bt_panel
+    yum update -y
+    yum clean all
+    install_btPanel_for_CentOS
+    install_python_for_CentOS7
+    crack_bt_panel
 elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
-	yum update -y
-	yum clean all
-	install_btPanel_for_CentOS
+    yum update -y
+    yum clean all
+    install_btPanel_for_CentOS
     install_python_for_CentOS6
-	crack_bt_panel
+    crack_bt_panel
 elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get update
-	apt-get install vim vim-gnome lrzsz fail2ban wget curl unrar -y
-	install_btPanel_for_APT
-	crack_bt_panel
+    apt-get install vim vim-gnome lrzsz fail2ban wget curl unrar -y
+    install_btPanel_for_APT
+    crack_bt_panel
 fi
 
 echo -e "${green}[完成] ${plain}宝塔面板破解版已安装成功！"
