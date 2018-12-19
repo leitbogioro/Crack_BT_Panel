@@ -117,6 +117,12 @@ execute_bt_panel() {
     /etc/init.d/cron restart
 }
 
+# 安装后清理
+clean_up() {
+    rm -rf crack_bt_panel_pro.sh
+    rm -rf update.sh
+}
+
 #正式安装
 if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
@@ -140,6 +146,8 @@ elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     execute_bt_panel
 fi
 
+clean_up
+
 echo -e "${green}[完成] ${plain}宝塔面板破解版已安装成功！"
 echo "按脚本提供的后台入口、账号、密码，登录宝塔面板并使用！"
-rm -rf crack_bt_panel_pro.sh
+
