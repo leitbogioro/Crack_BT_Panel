@@ -111,7 +111,7 @@ crack_bt_panel() {
 
 #定时重启宝塔面板
 execute_bt_panel() {
-    if grep '/etc/init.d/bt restart' /etc/crontab; then
+    if ! grep '/etc/init.d/bt restart' /etc/crontab; then
         systemctl enable cron.service
         systemctl start cron.service
         echo "0  0    * * *   root    /etc/init.d/bt restart" >> /etc/crontab
