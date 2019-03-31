@@ -95,7 +95,7 @@ install_btPanel_for_CentOS() {
 }
 
 install_btPanel_for_APT() {
-    wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install-ubuntu.sh && sudo bash install.sh
+    wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install-ubuntu.sh && bash install.sh
     wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update_pro.sh
 }
 
