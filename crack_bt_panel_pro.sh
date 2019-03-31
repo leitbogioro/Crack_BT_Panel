@@ -142,7 +142,7 @@ elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     crack_bt_panel
 elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get update
-    apt-get install vim vim-gnome lrzsz fail2ban wget curl unrar unzip cron -y
+    apt-get install sudo libnet-ifconfig-wrapper-perl socat vim vim-gnome lrzsz fail2ban wget curl unrar unzip cron -y
     install_btPanel_for_APT
     crack_bt_panel
     execute_bt_panel
