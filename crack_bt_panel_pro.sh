@@ -91,12 +91,12 @@ install_python_for_CentOS7() {
 
 install_btPanel_for_CentOS() {
     yum install -y wget && wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install.sh && bash install.sh
-    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh
+    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh pro
 }
 
 install_btPanel_for_APT() {
     wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install-ubuntu.sh && bash install.sh
-    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh
+    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh pro
 }
 
 #破解步骤
