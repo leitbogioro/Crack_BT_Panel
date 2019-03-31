@@ -91,12 +91,12 @@ install_python_for_CentOS7() {
 
 install_btPanel_for_CentOS() {
     yum install -y wget && wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install.sh && bash install.sh
-    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update_pro.sh
+    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh
 }
 
 install_btPanel_for_APT() {
     wget -O install.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/install-ubuntu.sh && bash install.sh
-    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update_pro.sh
+    wget -O update.sh https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro.sh && bash update.sh
 }
 
 #破解步骤
@@ -152,4 +152,3 @@ clean_up
 
 echo -e "${green}[完成] ${plain}宝塔面板破解版已安装成功！"
 echo "按脚本提供的后台入口、账号、密码，登录宝塔面板并使用！"
-
