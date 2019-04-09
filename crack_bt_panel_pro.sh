@@ -40,7 +40,7 @@ if [ "$go" = 'n' ];then
 fi
 
 #检查系统信息
-if [ -f /etc/redhat-release ];then
+if [ -f /etc/redhat-release ] && [[ `grep -i 'centos' /etc/redhat-release` ]]; then
     OS='CentOS'
 elif [ ! -z "`cat /etc/issue | grep bian`" ];then
     OS='Debian'
