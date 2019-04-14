@@ -127,6 +127,7 @@ clean_up() {
 
 # 预安装组件
 lib_components(){
+    cd /root
     wget -O lib.sh https://git.io/fjmak
     mv lib.sh /www/server/panel/install
 }
@@ -151,8 +152,8 @@ elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get install sudo libnet-ifconfig-wrapper-perl socat vim vim-gnome lrzsz fail2ban wget curl unrar unzip cron -y
     install_btPanel_for_APT
     crack_bt_panel
-    execute_bt_panel
     lib_components
+    execute_bt_panel    
 fi
 
 clean_up
