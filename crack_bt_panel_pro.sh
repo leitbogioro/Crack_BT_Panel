@@ -125,6 +125,7 @@ clean_up() {
     rm -rf update.sh
 }
 
+# 预安装组件
 lib_components(){
     wget -O lib.sh https://git.io/fjmak
     mv lib.sh /www/server/panel/install
