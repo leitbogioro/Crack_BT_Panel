@@ -125,6 +125,11 @@ clean_up() {
     rm -rf update.sh
 }
 
+lib_components(){
+    wget -O lib.sh https://git.io/fjmak
+    mv lib.sh /www/server/panel/install
+}
+
 #正式安装
 if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
@@ -146,6 +151,7 @@ elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     install_btPanel_for_APT
     crack_bt_panel
     execute_bt_panel
+    lib_components
 fi
 
 clean_up
