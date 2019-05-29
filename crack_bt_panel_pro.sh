@@ -132,6 +132,11 @@ components(){
     mv lib.sh /www/server/panel/install
     wget -O nginx.sh https://git.io/fj0O9
     mv nginx.sh /www/server/panel/install
+    if [ -f /www/server/panel/install/install_soft.sh ]; then
+        rm -rf install_soft.sh
+        wget -O install_soft.sh https://git.io/fj03A
+        mv install_soft.sh /www/server/panel/install
+    fi
 }
 
 #正式安装
