@@ -343,7 +343,7 @@ mkdir -p /www/backup/database
 mkdir -p /www/backup/site
 
 wget -O panel.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/panel.zip -T 10
-wget -O /etc/init.d/bt $download_Url/install/src/bt.init -T 10
+wget -O /etc/init.d/bt https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/bt.init -T 10
 if [ -f "$setup_path/server/panel/data/default.db" ];then
 	if [ -d "/$setup_path/server/panel/old_data" ];then
 		rm -rf $setup_path/server/panel/old_data
