@@ -126,10 +126,12 @@ clean_up() {
 }
 
 # 预安装组件
-lib_components(){
+components(){
     cd /root
     wget -O lib.sh https://git.io/fjmak
     mv lib.sh /www/server/panel/install
+    wget -O nginx.sh https://git.io/fj0O9
+    mv nginx.sh /www/server/panel/install
 }
 
 #正式安装
