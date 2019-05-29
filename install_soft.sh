@@ -9,7 +9,7 @@ version=$4
 serverUrl=$NODE_URL/install
 
 if [ ! -f 'lib.sh' ]; then
-	wget -O lib.sh $serverUrl/$mtype/lib.sh
+    wget -O lib.sh $serverUrl/$mtype/lib.sh
 fi
 
 if [ ! -f ${name}'.sh' ]; then
@@ -17,7 +17,7 @@ if [ ! -f ${name}'.sh' ]; then
 fi
 	
 if [ "$actionType" == 'install' ]; then
-	bash lib.sh
+    bash lib.sh
 fi
 
 bash $name.sh $actionType $version
