@@ -17,7 +17,7 @@ run_path="/root"
 Is_64bit=`getconf LONG_BIT`
 
 opensslVersion="1.1.1c"
-curlVersion="7.64.1"
+curlVersion="7.65.0"
 freetypeVersion="2.10.0"
 pcreVersion="8.43"
 
