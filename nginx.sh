@@ -176,7 +176,7 @@ Download_Src(){
 	rm -f openssl.tar.gz
 
 	pcre_version=8.42
-    wget -O pcre-$pcre_version.tar.gz ${download_Url}/src/pcre-$pcre_version.tar.gz -T 5
+        wget -O pcre-$pcre_version.tar.gz ${download_Url}/src/pcre-$pcre_version.tar.gz -T 5
 	tar zxf pcre-$pcre_version.tar.gz
 
 	wget -O ngx_cache_purge.tar.gz ${download_Url}/src/ngx_cache_purge-2.3.tar.gz
