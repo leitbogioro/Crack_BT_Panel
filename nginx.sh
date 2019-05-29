@@ -18,7 +18,7 @@ tengine="2.3.0"
 nginx108="1.8.1"
 nginx12="1.12.2"
 nginx14="1.14.2"
-nginx15="1.15.10"
+nginx15="1.15.12"
 nginx16="1.16.0"
 openresty="1.13.6.2"
 
@@ -229,7 +229,7 @@ Install_Nginx(){
 		tar -xvf src.tar.gz
 		mv ${version}-${nginxVersion} src
 	else
-		wget -O ${Setup_Path}/src.tar.gz ${download_Url}/src/nginx-${nginxVersion}.tar.gz -T20
+		wget -O ${Setup_Path}/src.tar.gz http://nginx.org/download/nginx-${nginxVersion}.tar.gz -T20
 		tar -xvf src.tar.gz
 		tar -xvf src.tar.gz
 		mv nginx-${nginxVersion} src
