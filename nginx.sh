@@ -106,6 +106,7 @@ Install_cjson()
 		wget -O lua-cjson-${lua_cjson_Ver}.tar.gz https://github.com/mpx/lua-cjson/archive/${lua_cjson_Ver}.tar.gz -T 20
 		tar xvf lua-cjson-${lua_cjson_Ver}.tar.gz
 		rm -f lua-cjson-${lua_cjson_Ver}.tar.gz
+		rm -f pax_global_header
 		cd lua-cjson-${lua_cjson_Ver}
 		make
 		make install
@@ -193,10 +194,11 @@ Download_Src(){
 	unzip nginx-sticky-module.zip
 	rm -f nginx-sticky-module.zip
 
-	wget -O nginx-http-concat.zip ${download_Url}/src/nginx-http-concat-1.2.2.zip
-	unzip nginx-http-concat.zip
+	wget -O nginx-http-concat.tar.gz https://github.com/alibaba/nginx-http-concat/archive/1.2.2.tar.gz
+	tar -zxvf nginx-http-concat.tar.gz
 	mv nginx-http-concat-1.2.2 nginx-http-concat
 	rm -f nginx-http-concat.zip
+        rm -f pax_global_header
 
 	#lua_nginx_module
 	LuaModVer="0.10.13"
