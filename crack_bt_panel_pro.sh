@@ -119,6 +119,15 @@ execute_bt_panel() {
     fi
 }
 
+#开启 ssl
+enable_ssl(){
+    if [ ! -f /www/server/panel/data/ssl.pl ]; then
+        echo "Ture" > /www/server/panel/data/ssl.pl
+        /usr/bin/python /usr/local/bin/pip install pyOpenSSL==16.2
+        /etc/init.d/bt restart
+    fi
+}
+
 # 安装后清理
 clean_up() {
     rm -rf crack_bt_panel_pro.sh
@@ -147,6 +156,7 @@ if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     install_btPanel_for_CentOS
     install_python_for_CentOS7
     crack_bt_panel
+    enable_ssl
 elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
     yum update -y
@@ -154,6 +164,7 @@ elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     install_btPanel_for_CentOS
     install_python_for_CentOS6
     crack_bt_panel
+    enable_ssl
 elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get update
     apt-get install ca-certificates -y
@@ -161,6 +172,7 @@ elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     install_btPanel_for_APT
     crack_bt_panel
     components
+    enable_ssl
     execute_bt_panel    
 fi
 
