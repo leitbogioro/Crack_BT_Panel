@@ -18,6 +18,8 @@ echo "
 +----------------------------------------------------------------------
 | The WebPanel URL will be http://SERVER_IP:8888 when installed.
 +----------------------------------------------------------------------
+| This panel is modified by MollyLau
++----------------------------------------------------------------------
 "
 deepinSys=`cat /etc/issue`
 if [[ "${deepinSys}" =~ eepin ]]; then
