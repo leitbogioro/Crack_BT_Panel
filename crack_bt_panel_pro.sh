@@ -135,6 +135,8 @@ clean_up() {
     if [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
         apt-get autoremove -y
     fi
+    # 删除各类残留
+    rm -rf /www/server/panel/plugin/btyw /root/install_cjson.sh /root/.pip /root/.pydistutils.cfg
 }
 
 # 预安装组件
@@ -159,10 +161,6 @@ vip_plugin(){
         wget -O vip_plugin.zip https://git.io/fj0VQ
         unzip vip_plugin.zip
         rm -f vip_plugin.zip
-    fi
-    # 删除宝塔运维插件
-    if [ -d "/btyw" ]; then
-        rm -rf btyw
     fi
     cd /root
 }
