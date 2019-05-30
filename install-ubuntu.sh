@@ -3,6 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 LANG=en_US.UTF-8
 
+setuptools_Ver="41.0.1"
 
 echo "
 +----------------------------------------------------------------------
@@ -197,13 +198,13 @@ pVersion=${tmp:0:3}
 Install_setuptools()
 {
 	if [ ! -f "/usr/bin/easy_install" ];then
-		wget -O setuptools-33.1.1.zip $download_Url/install/src/setuptools-33.1.1.zip -T 10
-		unzip setuptools-33.1.1.zip
-		rm -f setuptools-33.1.1.zip
-		cd setuptools-33.1.1
+		wget -O setuptools-${setuptools_Ver}.zip https://github.com/pypa/setuptools/archive/v${setuptools_Ver}.zip -T 15
+		unzip setuptools-${setuptools_Ver}.zip
+		rm -f setuptools-${setuptools_Ver}.zip
+		cd setuptools-${setuptools_Ver}
 		python setup.py install
 		cd ..
-		rm -rf setuptools-33.1.1
+		rm -rf setuptools-${setuptools_Ver}
 	fi
 	
 	if [ ! -f "/usr/bin/easy_install" ];then
