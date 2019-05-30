@@ -132,6 +132,9 @@ enable_ssl(){
 clean_up() {
     rm -rf crack_bt_panel_pro.sh
     rm -rf update.sh
+    if [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
+        apt-get autoremove -y
+    fi
 }
 
 # 预安装组件
@@ -154,8 +157,8 @@ vip_plugin(){
     cd /www/server/panel/plugin
     if [ ! -d "/masterslave" ]; then
         wget -O vip_plugin.zip https://git.io/fj0VQ
-        upzip vip_plugin.zip
-        rm -r vip_plugin.zip
+        unzip vip_plugin.zip
+        rm -f vip_plugin.zip
     fi
     # 删除宝塔运维插件
     if [ -d "/btyw" ]; then
