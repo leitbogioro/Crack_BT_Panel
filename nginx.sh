@@ -23,6 +23,7 @@ nginx16="1.16.0"
 openresty="1.13.6.2"
 
 jemalloc_Ver="5.2.0"
+lua_cjson_Ver="2.1.0"
 
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/nginx
@@ -86,7 +87,7 @@ Install_Configure(){
 }
 Install_Jemalloc(){
 	if [ ! -f '/usr/local/lib/libjemalloc.so' ]; then
-		wget -O jemalloc-${jemalloc_Ver}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${jemalloc_Ver}/jemalloc-${jemalloc_Ver}.tar.bz2
+		wget -O jemalloc-${jemalloc_Ver}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${jemalloc_Ver}/jemalloc-${jemalloc_Ver}.tar.bz2 -T 20
 		tar -xvf jemalloc-${jemalloc_Ver}.tar.bz2
 		cd jemalloc-${jemalloc_Ver}
 		./configure
@@ -99,14 +100,14 @@ Install_Jemalloc(){
 Install_cjson()
 {
 	if [ ! -f /usr/local/lib/lua/5.1/cjson.so ];then
-		wget -O lua-cjson-2.1.0.tar.gz $download_Url/install/src/lua-cjson-2.1.0.tar.gz -T 20
-		tar xvf lua-cjson-2.1.0.tar.gz
-		rm -f lua-cjson-2.1.0.tar.gz
-		cd lua-cjson-2.1.0
+		wget -O lua-cjson-${lua_cjson_Ver}.tar.gz https://github.com/mpx/lua-cjson/archive/${lua_cjson_Ver}.tar.gz -T 20
+		tar xvf lua-cjson-${lua_cjson_Ver}.tar.gz
+		rm -f lua-cjson-${lua_cjson_Ver}.tar.gz
+		cd lua-cjson-${lua_cjson_Ver}
 		make
 		make install
 		cd ..
-		rm -rf lua-cjson-2.1.0
+		rm -rf lua-cjson-${lua_cjson_Ver}
 	fi
 }
 Install_LuaJIT()
