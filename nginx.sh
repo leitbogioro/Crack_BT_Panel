@@ -24,6 +24,7 @@ openresty="1.13.6.2"
 
 jemalloc_Ver="5.2.0"
 lua_cjson_Ver="2.1.0"
+lua_Jit_Ver="2.0.5"
 
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/nginx
@@ -113,9 +114,9 @@ Install_cjson()
 Install_LuaJIT()
 {
 	if [ ! -d '/usr/local/include/luajit-2.0' ];then
-		wget -c -O LuaJIT-2.0.4.tar.gz ${download_Url}/install/src/LuaJIT-2.0.4.tar.gz -T 5
-		tar xvf LuaJIT-2.0.4.tar.gz
-		cd LuaJIT-2.0.4
+		wget -c -O LuaJIT-${lua_Jit_Ver}.tar.gz http://luajit.org/download/LuaJIT-${lua_Jit_Ver}.tar.gz -T 5
+		tar xvf LuaJIT-${lua_Jit_Ver}.tar.gz
+		cd LuaJIT-${lua_Jit_Ver}
 		make linux
 		make install
 		cd ..
