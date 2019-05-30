@@ -4,6 +4,11 @@ export PATH
 LANG=en_US.UTF-8
 
 setuptools_Ver="41.0.1"
+pillow_Ver="6.0.0"
+psutil_Ver="5.6.2"
+MySQL-python_Ver="1.2.5"
+chardet_Ver="3.0.4"
+webpy_Ver="0.39"
 
 echo "
 +----------------------------------------------------------------------
@@ -217,13 +222,13 @@ Install_Pillow()
 {
 	isSetup=`python -m PIL 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O Pillow-3.2.0.zip $download_Url/install/src/Pillow-3.2.0.zip -T 10
-		unzip Pillow-3.2.0.zip
-		rm -f Pillow-3.2.0.zip
-		cd Pillow-3.2.0
+		wget -O Pillow-${pillow_Ver}.zip https://github.com/python-pillow/Pillow/archive/${pillow_Ver}.zip -T 15
+		unzip Pillow-${pillow_Ver}.zip
+		rm -f Pillow-${pillow_Ver}.zip
+		cd Pillow-${pillow_Ver}
 		python setup.py install
 		cd ..
-		rm -rf Pillow-3.2.0
+		rm -rf Pillow-${pillow_Ver}
 	fi
 	isSetup=`python -m PIL 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -237,13 +242,13 @@ Install_psutil()
 {
 	isSetup=`python -m psutil 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O psutil-5.2.2.tar.gz $download_Url/install/src/psutil-5.2.2.tar.gz -T 10
-		tar xvf psutil-5.2.2.tar.gz
-		rm -f psutil-5.2.2.tar.gz
-		cd psutil-5.2.2
+		wget -O psutil-${psutil_Ver}.tar.gz https://github.com/giampaolo/psutil/archive/release-${psutil_Ver}.tar.gz -T 15
+		tar xvf psutil-${psutil_Ver}.tar.gz
+		rm -f psutil-${psutil_Ver}.tar.gz
+		cd psutil-${psutil_Ver}
 		python setup.py install
 		cd ..
-		rm -rf psutil-5.2.2
+		rm -rf psutil-${psutil_Ver}
 	fi
 	isSetup=`python -m psutil 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -257,13 +262,13 @@ Install_mysqldb()
 {
 	isSetup=`python -m MySQLdb 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O MySQL-python-1.2.5.zip $download_Url/install/src/MySQL-python-1.2.5.zip -T 10
-		unzip MySQL-python-1.2.5.zip
-		rm -f MySQL-python-1.2.5.zip
-		cd MySQL-python-1.2.5
+		wget -O MySQL-python-${MySQL-python_Ver}.zip https://github.com/farcepest/MySQLdb1/archive/MySQLdb-${MySQL-python_Ver}.zip -T 15
+		unzip MySQL-python-${MySQL-python_Ver}.zip
+		rm -f MySQL-python-${MySQL-python_Ver}.zip
+		cd MySQL-python-${MySQL-python_Ver}
 		python setup.py install
 		cd ..
-		rm -rf MySQL-python-1.2.5
+		rm -rf MySQL-python-${MySQL-python_Ver} pax_global_header
 	fi
 	
 }
@@ -272,13 +277,13 @@ Install_chardet()
 {
 	isSetup=`python -m chardet 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O chardet-2.3.0.tar.gz $download_Url/install/src/chardet-2.3.0.tar.gz -T 10
-		tar xvf chardet-2.3.0.tar.gz
-		rm -f chardet-2.3.0.tar.gz
-		cd chardet-2.3.0
+		wget -O chardet-${chardet_Ver}.tar.gz https://github.com/chardet/chardet/archive/${chardet_Ver}.tar.gz -T 15
+		tar xvf chardet-${chardet_Ver}.tar.gz
+		rm -f chardet-${chardet_Ver}.tar.gz
+		cd chardet-${chardet_Ver}
 		python setup.py install
 		cd ..
-		rm -rf chardet-2.3.0
+		rm -rf chardet-${chardet_Ver} pax_global_header
 	fi
 	isSetup=`python -m chardet 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -292,13 +297,13 @@ Install_webpy()
 {
 	isSetup=`python -m web 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O web.py-0.38.tar.gz $download_Url/install/src/web.py-0.38.tar.gz -T 10
-		tar xvf web.py-0.38.tar.gz
-		rm -f web.py-0.38.tar.gz
-		cd web.py-0.38
+		wget -O webpy-${webpy_Ver}.tar.gz https://github.com/webpy/webpy/archive/webpy-${webpy_Ver}.tar.gz -T 10
+		tar xvf webpy-${webpy_Ver}.tar.gz
+		rm -f webpy-${webpy_Ver}.tar.gz
+		cd webpy-${webpy_Ver}
 		python setup.py install
 		cd ..
-		rm -rf web.py-0.38
+		rm -rf webpy-${webpy_Ver} pax_global_header
 	fi
 	
 	isSetup=`python -m web 2>&1|grep package`
