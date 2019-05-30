@@ -180,12 +180,13 @@ Download_Src(){
 		opensslVer="1.0.2s"
 	fi
 	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 15
-	tar -xvf openssl.tar.gz
+	tar -zxvf openssl.tar.gz
 	mv openssl-${opensslVer} openssl
 	rm -f openssl.tar.gz
 
         wget -O pcre-${pcre_Ver}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcre_Ver}.tar.gz -T 15
-	tar zxf pcre-${pcre_Ver}.tar.gz
+	tar -zxvf pcre-${pcre_Ver}.tar.gz
+	rm -f pcre-${pcre_Ver}.tar.gz
 
 	wget -O ngx_cache_purge.tar.gz http://labs.frickle.com/files/ngx_cache_purge-${ngx_cache_purge_Ver}.tar.gz -T 15
 	tar -zxvf ngx_cache_purge.tar.gz
