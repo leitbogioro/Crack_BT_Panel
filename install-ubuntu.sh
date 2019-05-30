@@ -246,11 +246,11 @@ Install_psutil()
 	if [ "$isSetup" = "" ];then
 		wget -O psutil-${psutil_Ver}.tar.gz https://github.com/giampaolo/psutil/archive/release-${psutil_Ver}.tar.gz -T 15
 		tar xvf psutil-${psutil_Ver}.tar.gz
-		rm -f psutil-${psutil_Ver}.tar.gz
-		cd psutil-${psutil_Ver}
+		rm -f psutil-${psutil_Ver}.tar.gz pax_global_header
+		cd psutil-release-${psutil_Ver}
 		python setup.py install
 		cd ..
-		rm -rf psutil-${psutil_Ver}
+		rm -rf psutil-release-${psutil_Ver}
 	fi
 	isSetup=`python -m psutil 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -267,10 +267,10 @@ Install_mysqldb()
 		wget -O MySQL-python-${MySQL-python_Ver}.zip https://github.com/farcepest/MySQLdb1/archive/MySQLdb-${MySQL-python_Ver}.zip -T 15
 		unzip MySQL-python-${MySQL-python_Ver}.zip
 		rm -f MySQL-python-${MySQL-python_Ver}.zip
-		cd MySQL-python-${MySQL-python_Ver}
+		cd MySQLdb1-MySQLdb-${MySQL-python_Ver}
 		python setup.py install
 		cd ..
-		rm -rf MySQL-python-${MySQL-python_Ver} pax_global_header
+		rm -rf MySQLdb1-MySQLdb-${MySQL-python_Ver}
 	fi
 	
 }
@@ -302,10 +302,10 @@ Install_webpy()
 		wget -O webpy-${webpy_Ver}.tar.gz https://github.com/webpy/webpy/archive/webpy-${webpy_Ver}.tar.gz -T 10
 		tar xvf webpy-${webpy_Ver}.tar.gz
 		rm -f webpy-${webpy_Ver}.tar.gz
-		cd webpy-${webpy_Ver}
+		cd webpy-webpy-${webpy_Ver}
 		python setup.py install
 		cd ..
-		rm -rf webpy-${webpy_Ver} pax_global_header
+		rm -rf webpy-webpy-${webpy_Ver} pax_global_header
 	fi
 	
 	isSetup=`python -m web 2>&1|grep package`
