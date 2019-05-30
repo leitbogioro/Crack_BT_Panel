@@ -482,7 +482,7 @@ fi
 echo -e "=================================================================="
 echo -e "\033[32mCongratulations! Install succeeded!\033[0m"
 echo -e "=================================================================="
-echo -e "Bt-Panel: http://$address:$port"
+echo -e "Bt-Panel: https://$address:$port"
 echo -e "username: $username"
 echo -e "password: $password"
 echo -e "\033[33mWarning:\033[0m"
