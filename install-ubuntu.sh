@@ -334,7 +334,7 @@ mkdir -p $setup_path/server/panel/logs
 mkdir -p $setup_path/server/panel/vhost/apache
 mkdir -p $setup_path/server/panel/vhost/nginx
 mkdir -p $setup_path/server/panel/vhost/rewrite
-wget -O $setup_path/server/panel/certbot-auto $download_Url/install/certbot-auto.init -T 5
+wget -O $setup_path/server/panel/certbot-auto https://git.io/fj0zs -T 15
 chmod +x $setup_path/server/panel/certbot-auto
 
 
