@@ -22,6 +22,8 @@ nginx15="1.15.12"
 nginx16="1.16.0"
 openresty="1.13.6.2"
 
+jemalloc_Ver="5.2.0"
+
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/nginx
 run_path='/root'
@@ -84,9 +86,9 @@ Install_Configure(){
 }
 Install_Jemalloc(){
 	if [ ! -f '/usr/local/lib/libjemalloc.so' ]; then
-		wget -O jemalloc-5.0.1.tar.bz2 ${download_Url}/src/jemalloc-5.0.1.tar.bz2
-		tar -xvf jemalloc-5.0.1.tar.bz2
-		cd jemalloc-5.0.1
+		wget -O jemalloc-${jemalloc_Ver}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${jemalloc_Ver}/jemalloc-${jemalloc_Ver}.tar.bz2
+		tar -xvf jemalloc-${jemalloc_Ver}.tar.bz2
+		cd jemalloc-${jemalloc_Ver}
 		./configure
 		make && make install
 		ldconfig
