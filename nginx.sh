@@ -189,9 +189,9 @@ Download_Src(){
 	mv ngx_cache_purge-${ngx_cache_purge_Ver} ngx_cache_purge
 	rm -f ngx_cache_purge.tar.gz
 
-	wget -O nginx-sticky-module.tar.gz https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/master.tar.gz
-	tar -zxvf nginx-sticky-module.tar.gz
-	rm -f nginx-sticky-module.tar.gz
+	wget -O nginx-sticky-module.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/nginx-sticky-module.zip
+	unzip nginx-sticky-module.zip
+	rm -f nginx-sticky-module.zip
 
 	wget -O nginx-http-concat.zip ${download_Url}/src/nginx-http-concat-1.2.2.zip
 	unzip nginx-http-concat.zip
