@@ -26,6 +26,7 @@ jemalloc_Ver="5.2.0"
 lua_cjson_Ver="2.1.0"
 lua_Jit_Ver="2.0.5"
 pcre_Ver="8.43"
+ngx_cache_purge_Ver="2.3"
 
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/nginx
@@ -175,22 +176,22 @@ Download_Src(){
 	else
 		opensslVer="1.0.2s"
 	fi
-	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 5
+	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 15
 	tar -xvf openssl.tar.gz
 	mv openssl-${opensslVer} openssl
 	rm -f openssl.tar.gz
 
-        wget -O pcre-${pcre_Ver}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcre_Ver}.tar.gz -T 5
+        wget -O pcre-${pcre_Ver}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcre_Ver}.tar.gz -T 15
 	tar zxf pcre-${pcre_Ver}.tar.gz
 
-	wget -O ngx_cache_purge.tar.gz ${download_Url}/src/ngx_cache_purge-2.3.tar.gz
+	wget -O ngx_cache_purge.tar.gz http://labs.frickle.com/files/ngx_cache_purge-${ngx_cache_purge_Ver}.tar.gz -T 15
 	tar -zxvf ngx_cache_purge.tar.gz
-	mv ngx_cache_purge-2.3 ngx_cache_purge
+	mv ngx_cache_purge-${ngx_cache_purge_Ver} ngx_cache_purge
 	rm -f ngx_cache_purge.tar.gz
 
-	wget -O nginx-sticky-module.zip ${download_Url}/src/nginx-sticky-module.zip
-	unzip nginx-sticky-module.zip
-	rm -f nginx-sticky-module.zip
+	wget -O nginx-sticky-module.tar.gz https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/master.tar.gz
+	tar -zxvf nginx-sticky-module.tar.gz
+	rm -f nginx-sticky-module.tar.gz
 
 	wget -O nginx-http-concat.zip ${download_Url}/src/nginx-http-concat-1.2.2.zip
 	unzip nginx-http-concat.zip
