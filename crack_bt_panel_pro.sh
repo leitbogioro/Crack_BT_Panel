@@ -114,7 +114,7 @@ execute_bt_panel() {
     if ! grep '/etc/init.d/bt restart' /etc/crontab; then
         systemctl enable cron.service
         systemctl start cron.service
-        echo "0  0    * * *   root    /etc/init.d/bt restart" >> /etc/crontab
+        echo "0  0    * * 0   root    /etc/init.d/bt restart" >> /etc/crontab
         /etc/init.d/cron restart
     fi
 }
@@ -148,6 +148,22 @@ components(){
     fi
 }
 
+# 插件配置
+vip_plugin(){
+    # 默认安装所有付费高级插件
+    cd /www/server/panel/plugin
+    if [ ! -d "/masterslave" ]; then
+        wget -O vip_plugin.zip https://git.io/fj0VQ
+        upzip vip_plugin.zip
+        rm -r vip_plugin.zip
+    fi
+    # 删除宝塔运维插件
+    if [ -d "/btyw" ]; then
+        rm -rf btyw
+    fi
+    cd /root
+}
+
 #正式安装
 if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
@@ -157,6 +173,7 @@ if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     install_python_for_CentOS7
     crack_bt_panel
     enable_ssl
+    vip_plugin
 elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
     yum update -y
@@ -165,14 +182,16 @@ elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     install_python_for_CentOS6
     crack_bt_panel
     enable_ssl
+    vip_plugin
 elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get update
     apt-get install ca-certificates -y
-    apt-get install sudo libnet-ifconfig-wrapper-perl socat vim vim-gnome lrzsz fail2ban wget curl unrar unzip cron -y
+    apt-get install sudo apt-transport-https vim vim-gnome libnet-ifconfig-wrapper-perl socat vim vim-gnome vim-gtk libnet-ifconfig-wrapper-perl socat lrzsz fail2ban wget curl unrar unzip cron dnsutils net-tools git git-svn make cmake gdb tig -y
     install_btPanel_for_APT
     crack_bt_panel
     components
     enable_ssl
+    vip_plugin
     execute_bt_panel    
 fi
 
