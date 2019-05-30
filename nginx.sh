@@ -200,15 +200,13 @@ Download_Src(){
 	wget -O nginx-http-concat.tar.gz https://github.com/alibaba/nginx-http-concat/archive/1.2.2.tar.gz -T 15
 	tar -zxvf nginx-http-concat.tar.gz
 	mv nginx-http-concat-1.2.2 nginx-http-concat
-	rm -f nginx-http-concat.zip
-        rm -f pax_global_header
+	rm -f nginx-http-concat.zip pax_global_header
 
 	#lua_nginx_module
 	wget -c -O lua-nginx-module-${LuaModVer}.zip https://github.com/openresty/lua-nginx-module/archive/v${LuaModVer}.zip -T 15
 	unzip lua-nginx-module-${LuaModVer}.zip
 	mv lua-nginx-module-${LuaModVer} lua_nginx_module
-	rm -f lua-nginx-module-${LuaModVer}.zip
-	rm -f pax_global_header
+	rm -f lua-nginx-module-${LuaModVer}.zip pax_global_header
 	
 	#ngx_devel_kit
 	wget -c -O ngx_devel_kit-${NgxDevelKitVer}.zip https://github.com/simplresty/ngx_devel_kit/archive/v${NgxDevelKitVer}.zip -T 15
