@@ -25,7 +25,7 @@ fi
 
 download_Url=$NODE_URL
 setup_path=/www
-version=`cat /www/server/panel/class/common.py|grep "\.version"|awk '{print $3}'|sed 's/"//g'|sed 's/;//g'`
+version="5.9.1"
 
 pcreRpm=`rpm -qa |grep bt-pcre`
 if [ "${pcreRpm}" != "" ];then
