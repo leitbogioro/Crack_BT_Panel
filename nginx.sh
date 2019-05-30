@@ -27,6 +27,8 @@ lua_cjson_Ver="2.1.0"
 lua_Jit_Ver="2.0.5"
 pcre_Ver="8.43"
 ngx_cache_purge_Ver="2.3"
+LuaModVer="0.10.15"
+NgxDevelKitVer="0.3.1rc1"
 
 Root_Path=`cat /var/bt_setupPath.conf`
 Setup_Path=$Root_Path/server/nginx
@@ -190,26 +192,25 @@ Download_Src(){
 	mv ngx_cache_purge-${ngx_cache_purge_Ver} ngx_cache_purge
 	rm -f ngx_cache_purge.tar.gz
 
-	wget -O nginx-sticky-module.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/nginx-sticky-module.zip
+	wget -O nginx-sticky-module.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/nginx-sticky-module.zip -T 15
 	unzip nginx-sticky-module.zip
 	rm -f nginx-sticky-module.zip
 
-	wget -O nginx-http-concat.tar.gz https://github.com/alibaba/nginx-http-concat/archive/1.2.2.tar.gz
+	wget -O nginx-http-concat.tar.gz https://github.com/alibaba/nginx-http-concat/archive/1.2.2.tar.gz -T 15
 	tar -zxvf nginx-http-concat.tar.gz
 	mv nginx-http-concat-1.2.2 nginx-http-concat
 	rm -f nginx-http-concat.zip
         rm -f pax_global_header
 
 	#lua_nginx_module
-	LuaModVer="0.10.13"
-	wget -c -O lua-nginx-module-${LuaModVer}.zip ${download_Url}/src/lua-nginx-module-${LuaModVer}.zip -T 5
+	wget -c -O lua-nginx-module-${LuaModVer}.zip https://github.com/openresty/lua-nginx-module/archive/v${LuaModVer}.zip -T 15
 	unzip lua-nginx-module-${LuaModVer}.zip
 	mv lua-nginx-module-${LuaModVer} lua_nginx_module
 	rm -f lua-nginx-module-${LuaModVer}.zip
+	rm -f pax_global_header
 	
 	#ngx_devel_kit
-	NgxDevelKitVer="0.3.1rc1"
-	wget -c -O ngx_devel_kit-${NgxDevelKitVer}.zip ${download_Url}/src/ngx_devel_kit-${NgxDevelKitVer}.zip -T 5
+	wget -c -O ngx_devel_kit-${NgxDevelKitVer}.zip https://github.com/simplresty/ngx_devel_kit/archive/v${NgxDevelKitVer}.zip -T 15
 	unzip ngx_devel_kit-${NgxDevelKitVer}.zip
 	mv ngx_devel_kit-${NgxDevelKitVer} ngx_devel_kit
 	rm -f ngx_devel_kit-${NgxDevelKitVer}.zip	
