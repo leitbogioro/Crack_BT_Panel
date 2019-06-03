@@ -128,7 +128,7 @@ Install_LuaJIT()
 		rm -rf LuaJIT-*
 		export LUAJIT_LIB=/usr/local/lib
 		export LUAJIT_INC=/usr/local/include/luajit-2.0/
-		ln -sf /usr/local/lib/libluajit-5.1.so.2 /usr/local/lib64/libluajit-5.1.so.2
+		ln -sf /usr/local/lib/libluajit-5.1.so.2 /lib64/libluajit-5.1.so.2
 		echo "/usr/local/lib" >> /etc/ld.so.conf
 		ldconfig
 	fi
