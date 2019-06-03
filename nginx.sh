@@ -119,8 +119,9 @@ Install_cjson()
 Install_LuaJIT()
 {
 	if [ ! -d '/usr/local/include/luajit-2.0' ];then
-		wget -c -O LuaJIT-${lua_Jit_Ver}.tar.gz http://luajit.org/download/LuaJIT-${lua_Jit_Ver}.tar.gz -T 5
-		tar xvf LuaJIT-${lua_Jit_Ver}.tar.gz
+	        
+		wget -c -O LuaJIT-${lua_Jit_Ver}.zip https://github.com/leitbogioro/Crack_BT_Panel/raw/master/installer_components/LuaJIT-${lua_Jit_Ver}.zip -T 5
+		upzip LuaJIT-${lua_Jit_Ver}.zip
 		cd LuaJIT-${lua_Jit_Ver}
 		make linux
 		make install
