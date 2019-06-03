@@ -173,7 +173,7 @@ if [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "7" ]]; then
     install_btPanel_for_CentOS
     install_python_for_CentOS7
     crack_bt_panel
-    enable_ssl
+    #enable_ssl
     #vip_plugin
 elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     yum install epel-release wget curl nss fail2ban unzip lrzsz vim* -y
@@ -182,7 +182,7 @@ elif [[ ${OS} == 'CentOS' ]] && [[ ${CentOS_Version} -eq "6" ]]; then
     install_btPanel_for_CentOS
     install_python_for_CentOS6
     crack_bt_panel
-    enable_ssl
+    #enable_ssl
     #vip_plugin
 elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     apt-get update
@@ -191,7 +191,7 @@ elif [[ ${OS} == 'Ubuntu' ]] || [[ ${OS} == 'Debian' ]]; then
     install_btPanel_for_APT
     crack_bt_panel
     components
-    enable_ssl
+    #enable_ssl
     #vip_plugin
     execute_bt_panel    
 fi
