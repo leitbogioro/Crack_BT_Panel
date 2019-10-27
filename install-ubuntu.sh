@@ -3,12 +3,6 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 LANG=en_US.UTF-8
 
-setuptools_Ver="41.0.1"
-pillow_Ver="6.0.0"
-psutil_Ver="5.6.2"
-MySQL-python_Ver="1.2.5"
-chardet_Ver="3.0.4"
-webpy_Ver="0.39"
 
 echo "
 +----------------------------------------------------------------------
@@ -17,8 +11,6 @@ echo "
 | Copyright © 2015-2018 BT-SOFT(http://www.bt.cn) All rights reserved.
 +----------------------------------------------------------------------
 | The WebPanel URL will be http://SERVER_IP:8888 when installed.
-+----------------------------------------------------------------------
-| This panel is modified by MollyLau
 +----------------------------------------------------------------------
 "
 deepinSys=`cat /etc/issue`
@@ -109,6 +101,14 @@ if [ -f $setup_path/server/panel/data/port.pl ];then
 	port=`cat $setup_path/server/panel/data/port.pl`
 fi
 
+while [ "$go" != 'y' ] && [ "$go" != 'n' ]
+do
+	read -p "Do you want to install Bt-Panel to the $setup_path directory now?(y/n): " go;
+done
+
+if [ "$go" = 'n' ];then
+	exit;
+fi
 startTime=`date +%s`
 
 #数据盘自动分区
@@ -205,13 +205,13 @@ pVersion=${tmp:0:3}
 Install_setuptools()
 {
 	if [ ! -f "/usr/bin/easy_install" ];then
-		wget -O setuptools-${setuptools_Ver}.zip https://github.com/pypa/setuptools/archive/v${setuptools_Ver}.zip -T 15
-		unzip setuptools-${setuptools_Ver}.zip
-		rm -f setuptools-${setuptools_Ver}.zip
-		cd setuptools-${setuptools_Ver}
+		wget -O setuptools-33.1.1.zip $download_Url/install/src/setuptools-33.1.1.zip -T 10
+		unzip setuptools-33.1.1.zip
+		rm -f setuptools-33.1.1.zip
+		cd setuptools-33.1.1
 		python setup.py install
 		cd ..
-		rm -rf setuptools-${setuptools_Ver}
+		rm -rf setuptools-33.1.1
 	fi
 	
 	if [ ! -f "/usr/bin/easy_install" ];then
@@ -224,13 +224,13 @@ Install_Pillow()
 {
 	isSetup=`python -m PIL 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O Pillow-${pillow_Ver}.zip https://github.com/python-pillow/Pillow/archive/${pillow_Ver}.zip -T 15
-		unzip Pillow-${pillow_Ver}.zip
-		rm -f Pillow-${pillow_Ver}.zip
-		cd Pillow-${pillow_Ver}
+		wget -O Pillow-3.2.0.zip $download_Url/install/src/Pillow-3.2.0.zip -T 10
+		unzip Pillow-3.2.0.zip
+		rm -f Pillow-3.2.0.zip
+		cd Pillow-3.2.0
 		python setup.py install
 		cd ..
-		rm -rf Pillow-${pillow_Ver}
+		rm -rf Pillow-3.2.0
 	fi
 	isSetup=`python -m PIL 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -244,13 +244,13 @@ Install_psutil()
 {
 	isSetup=`python -m psutil 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O psutil-${psutil_Ver}.tar.gz https://github.com/giampaolo/psutil/archive/release-${psutil_Ver}.tar.gz -T 15
-		tar xvf psutil-${psutil_Ver}.tar.gz
-		rm -f psutil-${psutil_Ver}.tar.gz pax_global_header
-		cd psutil-release-${psutil_Ver}
+		wget -O psutil-5.2.2.tar.gz $download_Url/install/src/psutil-5.2.2.tar.gz -T 10
+		tar xvf psutil-5.2.2.tar.gz
+		rm -f psutil-5.2.2.tar.gz
+		cd psutil-5.2.2
 		python setup.py install
 		cd ..
-		rm -rf psutil-release-${psutil_Ver}
+		rm -rf psutil-5.2.2
 	fi
 	isSetup=`python -m psutil 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -264,13 +264,13 @@ Install_mysqldb()
 {
 	isSetup=`python -m MySQLdb 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O MySQL-python-${MySQL-python_Ver}.zip https://github.com/farcepest/MySQLdb1/archive/MySQLdb-${MySQL-python_Ver}.zip -T 15
-		unzip MySQL-python-${MySQL-python_Ver}.zip
-		rm -f MySQL-python-${MySQL-python_Ver}.zip
-		cd MySQLdb1-MySQLdb-${MySQL-python_Ver}
+		wget -O MySQL-python-1.2.5.zip $download_Url/install/src/MySQL-python-1.2.5.zip -T 10
+		unzip MySQL-python-1.2.5.zip
+		rm -f MySQL-python-1.2.5.zip
+		cd MySQL-python-1.2.5
 		python setup.py install
 		cd ..
-		rm -rf MySQLdb1-MySQLdb-${MySQL-python_Ver}
+		rm -rf MySQL-python-1.2.5
 	fi
 	
 }
@@ -279,13 +279,13 @@ Install_chardet()
 {
 	isSetup=`python -m chardet 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O chardet-${chardet_Ver}.tar.gz https://github.com/chardet/chardet/archive/${chardet_Ver}.tar.gz -T 15
-		tar xvf chardet-${chardet_Ver}.tar.gz
-		rm -f chardet-${chardet_Ver}.tar.gz
-		cd chardet-${chardet_Ver}
+		wget -O chardet-2.3.0.tar.gz $download_Url/install/src/chardet-2.3.0.tar.gz -T 10
+		tar xvf chardet-2.3.0.tar.gz
+		rm -f chardet-2.3.0.tar.gz
+		cd chardet-2.3.0
 		python setup.py install
 		cd ..
-		rm -rf chardet-${chardet_Ver} pax_global_header
+		rm -rf chardet-2.3.0
 	fi
 	isSetup=`python -m chardet 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
@@ -299,13 +299,13 @@ Install_webpy()
 {
 	isSetup=`python -m web 2>&1|grep package`
 	if [ "$isSetup" = "" ];then
-		wget -O webpy-${webpy_Ver}.tar.gz https://github.com/webpy/webpy/archive/webpy-${webpy_Ver}.tar.gz -T 10
-		tar xvf webpy-${webpy_Ver}.tar.gz
-		rm -f webpy-${webpy_Ver}.tar.gz
-		cd webpy-webpy-${webpy_Ver}
+		wget -O web.py-0.38.tar.gz $download_Url/install/src/web.py-0.38.tar.gz -T 10
+		tar xvf web.py-0.38.tar.gz
+		rm -f web.py-0.38.tar.gz
+		cd web.py-0.38
 		python setup.py install
 		cd ..
-		rm -rf webpy-webpy-${webpy_Ver} pax_global_header
+		rm -rf web.py-0.38
 	fi
 	
 	isSetup=`python -m web 2>&1|grep package`
@@ -336,7 +336,7 @@ mkdir -p $setup_path/server/panel/logs
 mkdir -p $setup_path/server/panel/vhost/apache
 mkdir -p $setup_path/server/panel/vhost/nginx
 mkdir -p $setup_path/server/panel/vhost/rewrite
-wget -O $setup_path/server/panel/certbot-auto https://git.io/fj0zs -T 15
+wget -O $setup_path/server/panel/certbot-auto $download_Url/install/certbot-auto.init -T 5
 chmod +x $setup_path/server/panel/certbot-auto
 
 
@@ -350,8 +350,8 @@ mkdir -p /www/wwwlogs
 mkdir -p /www/backup/database
 mkdir -p /www/backup/site
 
-wget -O panel.zip https://git.io/fj0zZ -T 15
-wget -O /etc/init.d/bt https://git.io/fj0zc -T 15
+wget -O panel.zip $download_Url/install/src/panel.zip -T 10
+wget -O /etc/init.d/bt $download_Url/install/src/bt.init -T 10
 if [ -f "$setup_path/server/panel/data/default.db" ];then
 	if [ -d "/$setup_path/server/panel/old_data" ];then
 		rm -rf $setup_path/server/panel/old_data
@@ -429,8 +429,8 @@ if [ -f "/usr/sbin/ufw" ];then
 	ufw default deny
 	ufw reload
 fi
-
-pip install psutil chardet web.py psutil virtualenv $pipArg
+pip install web.py==0.39
+pip install psutil chardet psutil virtualenv $pipArg
 if [ ! -d '/etc/letsencrypt' ];then
 
 	mkdir -p /var/spool/cron
