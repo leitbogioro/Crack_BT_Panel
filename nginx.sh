@@ -175,7 +175,7 @@ CheckPHPVersion()
 
 Download_Src(){
 	if [ "${version}" == "1.15" ] || [ "${version}" == "tengine" ] || [ "${version}" == "1.16" ]; then
-		opensslVer="1.1.1c"
+		opensslVer="1.1.1d"
 	else
 		opensslVer="1.0.2s"
 	fi
