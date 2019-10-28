@@ -117,11 +117,21 @@ if [ -f $setup_path/server/panel/data/port.pl ];then
 	port=`cat $setup_path/server/panel/data/port.pl`
 fi
 
+while [ "$go" != 'y' ] && [ "$go" != 'n' ]
+do
+	read -p "Do you want to install Bt-Panel to the $setup_path directory now?(y/n): " go;
+done
+
+if [ "$go" == 'n' ];then
+	exit;
+fi
+
 path=/etc/yum.conf
 isExc=`cat $path|grep httpd`
 if [ "$isExc" = "" ];then
     echo "exclude=httpd nginx php mysql mairadb python-psutil python2-psutil" >> $path
 fi
+
 
 #数据盘自动分区
 fdiskP(){
@@ -535,6 +545,9 @@ if [ "$isStart" == '' ];then
 	exit;
 fi
 
+
+
+
 if [ -f "/etc/init.d/iptables" ];then
 	sshPort=`cat /etc/ssh/sshd_config | grep 'Port ' | grep -oE [0-9] | tr -d '\n'`
 	if [ "${sshPort}" != "22" ]; then
@@ -580,8 +593,8 @@ if [ "${isVersion}" == '' ];then
 		firewall-cmd --reload
 	fi
 fi
-
-pip install psutil chardet web.py psutil virtualenv cryptography==2.1 > /dev/null 2>&1
+pip install web.py==0.39
+pip install psutil chardet psutil virtualenv cryptography==2.1 > /dev/null 2>&1
 
 if [ ! -d '/etc/letsencrypt' ];then
 	yum install epel-release -y
