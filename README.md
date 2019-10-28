@@ -15,6 +15,7 @@
 <code>wget --no-check-certificate -qO uninstall.sh https://git.io/JeuIm && bash uninstall.sh</code>
 
 ## 更新日志
+- Nginx 安装器 openssl 主线版本已升级至 1.1.1d 和 1.0.2t；
 - 提供卸载功能；
 - 重新恢复官方安装源，将本仓库作为备份源；
 - 为防止宝塔面板官方封杀此破解方法，面板主安装文件已迁移至本项目仓库，如对安装文件是否有后门等产生疑问，请自行与官方安装文件对比；
