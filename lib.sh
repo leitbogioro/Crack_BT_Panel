@@ -3,21 +3,26 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 public_file=/www/server/panel/install/public.sh
 if [ ! -f $public_file ];then
-	wget -O $public_file http://download.bt.cn/install/public.sh -T 5;
+	wget -O $public_file http://download.bt.cn/install/public.sh -T 40;
 fi
 publicFileMd5=$(md5sum ${public_file}|awk '{print $1}')
 md5check="8eda91b70b5b0517ac6745e915863c8f"
 if [ "${publicFileMd5}" != "${md5check}"  ]; then
-	wget -O $public_file http://download.bt.cn/install/public.sh -T 5;
+	wget -O $public_file http://download.bt.cn/install/public.sh -T 40;
 fi
 . $public_file
-download_Url=$NODE_URL
+if [ -z "${NODE_URL}" ];then
+	download_Url="http://download.bt.cn"
+else
+	download_Url=$NODE_URL
+fi
+echo ${download_Url}
 mkdir -p /www/server
 run_path="/root"
 Is_64bit=`getconf LONG_BIT`
 
-opensslVersion="1.1.1c"
-curlVersion="7.65.0"
+opensslVersion="1.1.1d"
+curlVersion="7.66.0"
 freetypeVersion="2.10.0"
 pcreVersion="8.43"
 
@@ -89,26 +94,18 @@ Install_Pcre(){
 }
 Install_Freetype()
 {
-	if [ -d /usr/local/freetype ];then
-		return;
+    if [ ! -f "/usr/bin/freetype-config" ] && [ ! -f "/usr/local/freetype/bin/freetype-config" ]; then
+		cd ${run_path}
+		wget -O freetype-${freetypeVersion}.tar.gz https://download.savannah.gnu.org/releases/freetype/freetype-${freetypeVersion}.tar.gz -T 5
+		tar zxf freetype-${freetypeVersion}.tar.gz
+		cd freetype-${freetypeVersion}
+		./configure --prefix=/usr/local/freetype --enable-freetype-config
+		make -j${cpuCore}
+		make install
+		cd ../
+		rm -rf freetype-${freetypeVersion}
+		rm -f freetype-${freetypeVersion}.tar.gz
 	fi
-	cd ${run_path}
-	wget -O freetype-${freetypeVersion}.tar.gz https://download.savannah.gnu.org/releases/freetype/freetype-${freetypeVersion}.tar.gz -T 5
-	tar zxf freetype-${freetypeVersion}.tar.gz
-	cd freetype-${freetypeVersion}
-    ./configure --prefix=/usr/local/freetype
-    make -j${cpuCore}
-    make install
-
-    echo "/usr/local/freetype/lib" > /etc/ld.so.conf.d/zfreetype.conf
-
-    ldconfig
-    ln -sf /usr/local/freetype/include/freetype2 /usr/local/include
-    ln -sf /usr/local/freetype/include/ft2build.h /usr/local/include
-    cd ${run_path}
-    rm -rf freetype-${freetypeVersion}
-	rm -f freetype-${freetypeVersion}.tar.gz
-	echo -e "Install_Freetype" >> /www/server/lib.pl
 }
 Install_Libiconv()
 {
@@ -221,6 +218,7 @@ Install_Yumlib(){
 		fi
 	done
 	mv /etc/yum.repos.d/epel.repo.backup /etc/yum.repos.d/epel.repo
+    yum install epel-release -y
 	echo "true" > /etc/bt_lib.lock
 }
 Install_Aptlib(){
@@ -253,7 +251,6 @@ Install_Lib()
 	if [ -f "${lockFile}" ]; then
 		return
 	fi
-
 	if [ "${PM}" = "yum" ]; then
 		Install_Yumlib
 	elif [ "${PM}" = "apt-get" ]; then
@@ -263,7 +260,6 @@ Install_Lib()
 	Run_User="www"
 	groupadd ${Run_User}
 	useradd -s /sbin/nologin -g ${Run_User} ${Run_User}
-
 }
 
 Install_Lib
@@ -274,3 +270,4 @@ Install_Mhash
 Install_Libmcrypt
 Install_Mcrypt	
 Install_Libiconv
+Install_Freetype
