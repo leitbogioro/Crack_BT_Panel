@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US:en
 
 get_node_url(){
-	nodes=(http://183.235.223.101:3389 http://125.88.182.172:5880 http://128.1.164.196 http://103.224.251.67 http://download.bt.cn);
+	nodes=(http://183.235.223.101:3389 http://125.88.182.172:5880 http://103.224.251.67 http://119.188.210.21:5880 http://download.bt.cn http://45.32.116.160 http://128.1.164.196);
 	i=1;
 	for node in ${nodes[@]};
 	do
@@ -22,7 +22,7 @@ get_node_url(){
 			values[$i]=$time_ms;
 			urls[$time_ms]=$node
 			i=$(($i+1))
-			if [ $time_ms -lt 50 ];then
+			if [ $time_ms -lt 70 ];then
 				break;
 			fi
 		fi
@@ -33,7 +33,7 @@ get_node_url(){
 		if [ $j -gt $n ];then
 			j=$n
 		fi
-		if [ $j -lt 50 ];then
+		if [ $j -lt 70 ];then
 			break;
 		fi
 	done
@@ -70,6 +70,51 @@ GetPackManager(){
 		PM="apt-get"		
 	fi
 }
+
+bt_check(){
+	p_path=/www/server/panel/class/panelPlugin.py
+	if [ -f $p_path ];then
+		is_ext=$(cat $p_path|grep btwaf)
+		if [ "$is_ext" != "" ];then
+			send_check
+		fi
+	fi
+	
+	p_path=/www/server/panel/BTPanel/templates/default/index.html
+	if [ -f $p_path ];then
+		is_ext=$(cat $p_path|grep fbi)
+		if [ "$is_ext" != "" ];then
+			send_check
+		fi
+	fi
+}
+
+send_check(){
+	chattr -i /etc/init.d/bt
+	chmod +x /etc/init.d/bt
+	p_path2=/www/server/panel/class/common.py
+	p_version=$(cat $p_path2|grep "version = "|awk '{print $3}'|tr -cd [0-9.])
+	curl -sS --connect-timeout 3 -m 60 http://www.bt.cn/api/panel/notpro?version=$p_version
+	NODE_URL=""
+	exit 0;
+}
+GetSysInfo(){
+	if [ "${PM}" = "yum" ]; then
+		SYS_VERSION=$(cat /etc/redhat-release)
+	elif [ "${PM}" = "apt-get" ]; then
+		SYS_VERSION=$(cat /etc/issue)
+	fi
+	SYS_INFO=$(uname -a)
+	SYS_BIT=$(getconf LONG_BIT)
+	MEM_TOTAL=$(free -m|grep Mem|awk '{print $2}')
+	CPU_INFO=$(getconf _NPROCESSORS_ONLN)
+	GCC_VER=$(gcc -v 2>&1|grep "gcc version"|awk '{print $3}')
+	CMAKE_VER=$(cmake --version|grep version|awk '{print $3}')
+
+	echo -e ${SYS_VERSION}
+	echo -e Bit:${SYS_BIT} Mem:${MEM_TOTAL}M Core:${CPU_INFO} gcc:${GCC_VER} cmake:${CMAKE_VER}
+	echo -e ${SYS_INFO}
+}
 cpuInfo=$(getconf _NPROCESSORS_ONLN)
 if [ "${cpuInfo}" -ge "4" ];then
 	GetCpuStat
@@ -80,4 +125,5 @@ GetPackManager
 if [ ! $NODE_URL ];then
 	echo '正在选择下载节点...';
 	get_node_url
+	bt_check
 fi
