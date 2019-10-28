@@ -4,35 +4,30 @@ export PATH
 LANG=en_US.UTF-8
 public_file=/www/server/panel/install/public.sh
 if [ ! -f $public_file ];then
-	wget -O $public_file http://download.bt.cn/install/public.sh -T 5;
+	wget -O $public_file http://download.bt.cn/install/public.sh -T 20;
 fi
 publicFileMd5=$(md5sum ${public_file}|awk '{print $1}')
-md5check="3359a1a55d242faad48bc196eed9a876"
+md5check="0aa6cc891b1efd074f37feef75ec60bb"
 if [ "${publicFileMd5}" != "${md5check}"  ]; then
-	wget -O $public_file http://download.bt.cn/install/public.sh -T 5;
+	wget -O $public_file http://download.bt.cn/install/public.sh -T 20;
 fi
 . $public_file
 download_Url=$NODE_URL
 
-tengine="2.3.0"
-nginx108="1.8.1"
-nginx12="1.12.2"
-nginx14="1.14.2"
-nginx15="1.15.12"
-nginx16="1.16.0"
-openresty="1.13.6.2"
+tengine='2.3.2'
+nginx_108='1.8.1'
+nginx_112='1.12.2'
+nginx_114='1.14.2'
+#nginx_115='1.15.12'
+nginx_115='1.16.1'
+nginx_116='1.16.1'
+nginx_117='1.17.5'
+openresty='1.13.6.2'
 
-jemalloc_Ver="5.2.0"
-lua_cjson_Ver="2.1.0"
-lua_Jit_Ver="2.0.5"
-pcre_Ver="8.43"
-ngx_cache_purge_Ver="2.3"
-LuaModVer="0.10.15"
-NgxDevelKitVer="0.3.1rc1"
-
-Root_Path=`cat /var/bt_setupPath.conf`
+Root_Path=$(cat /var/bt_setupPath.conf)
 Setup_Path=$Root_Path/server/nginx
-run_path='/root'
+run_path="/root"
+Is_64bit=$(getconf LONG_BIT)
 
 if [ -z "${cpuCore}" ]; then
 	cpuCore="1"
@@ -40,10 +35,10 @@ fi
 
 System_Lib(){
 	if [ "${PM}" == "yum" ] || [ "${PM}" == "dnf" ] ; then
-		Pack="curl curl-devel libtermcap-devel ncurses-devel libevent-devel readline-devel"
+		Pack="curl curl-devel libtermcap-devel ncurses-devel libevent-devel readline-devel libuuid-devel"
 		${PM} install ${Pack} -y
 	elif [ "${PM}" == "apt-get" ]; then
-		Pack="libgd3 libgd-dev libevent-dev libncurses5-dev libreadline-dev"
+		Pack="libgd3 libgd-dev libevent-dev libncurses5-dev libreadline-dev uuid-dev"
 		${PM} install ${Pack} -y
 	fi
 }
@@ -64,37 +59,15 @@ Service_Del(){
 	fi
 }
 Set_Time(){
-	BtDate=$(curl https://www.bt.cn//api/index/get_date|awk '{print $1}')
-	SysTime=$(date +%Y%m%d)
-	if [ "${BtTime}" != "" ];then
-		if [ "${SysTime}" != "${BtTime}" ]; then
-			date -s "$(curl https://www.bt.cn//api/index/get_date)"
-		fi
-	fi
-}
-Install_Configure(){
-	if [ -f "/usr/local/lib/libjemalloc.so" ]; then
-		jemallocLD="--with-ld-opt="-ljemalloc""
-	else
-		jemallocLD=""
-	fi
-	if [ "${version}" == "1.15" ];then
-		./configure --user=www --group=www --prefix=${Setup_Path} --with-openssl=${Setup_Path}/src/openssl --add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-stream --with-stream_ssl_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-openssl-opt="enable-tls1_3 enable-weak-ssl-ciphers" --with-cc-opt="-Wno-error" ${jemallocLD}
-	elif [ "${version}" == "1.14" ] || [ "${version}" == "1.12" ] || [ "${version}" == "1.16" ]; then
-		./configure --user=www --group=www --prefix=${Setup_Path} --with-openssl=${Setup_Path}/src/openssl --add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --add-module=${Setup_Path}/src/nginx-http-concat --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-stream --with-stream_ssl_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-pcre=pcre-${pcre_Ver} --with-cc-opt="-Wno-error" ${jemallocLD}
-	elif [ "${version}" == "1.8" ]; then
-		./configure --user=www --group=www --prefix=${Setup_Path} --add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --add-module=${Setup_Path}/src/nginx-http-concat --with-http_stub_status_module --with-http_ssl_module --with-http_image_filter_module --with-http_spdy_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-pcre=pcre-${pcre_Ver} --with-cc-opt="-Wno-error" ${jemallocLD}
-	elif [ "${version}" == "tengine" ]; then
-		./configure --user=www --group=www --prefix=${Setup_Path} --add-module=${Setup_Path}/src/ngx_devel_kit --with-openssl=${Setup_Path}/src/openssl --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --add-module=${Setup_Path}/src/lua_nginx_module --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-pcre=pcre-${pcre_Ver} --with-cc-opt="-Wno-error"
-	elif [ "${version}" == "openresty" ]; then
-		./configure --user=www --group=www --prefix=${Setup_Path} --with-openssl=${Setup_Path}/src/openssl --with-pcre=pcre-${pcre_Ver} --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --add-module=${Setup_Path}/src/nginx-http-concat --with-luajit --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-stream --with-stream_ssl_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-cc-opt="-Wno-error" ${jemallocLD}
-	fi
+	BASH_DATE=$(stat nginx.sh|grep Modify|awk '{print $2}'|tr -d '-')
+	SYS_DATE=$(date +%Y%m%d)
+	[ "${SYS_DATE}" -lt "${BASH_DATE}" ] && date -s "$(curl https://www.bt.cn//api/index/get_date)"
 }
 Install_Jemalloc(){
 	if [ ! -f '/usr/local/lib/libjemalloc.so' ]; then
-		wget -O jemalloc-${jemalloc_Ver}.tar.bz2 https://github.com/jemalloc/jemalloc/releases/download/${jemalloc_Ver}/jemalloc-${jemalloc_Ver}.tar.bz2 -T 20
-		tar -xvf jemalloc-${jemalloc_Ver}.tar.bz2
-		cd jemalloc-${jemalloc_Ver}
+		wget -O jemalloc-5.0.1.tar.bz2 ${download_Url}/src/jemalloc-5.0.1.tar.bz2
+		tar -xvf jemalloc-5.0.1.tar.bz2
+		cd jemalloc-5.0.1
 		./configure
 		make && make install
 		ldconfig
@@ -102,135 +75,40 @@ Install_Jemalloc(){
 		rm -rf jemalloc*
 	fi
 }
-Install_cjson()
-{
-	if [ ! -f /usr/local/lib/lua/5.1/cjson.so ];then
-		wget -O lua-cjson-${lua_cjson_Ver}.tar.gz https://github.com/mpx/lua-cjson/archive/${lua_cjson_Ver}.tar.gz -T 20
-		tar xvf lua-cjson-${lua_cjson_Ver}.tar.gz
-		rm -f lua-cjson-${lua_cjson_Ver}.tar.gz
-		rm -f pax_global_header
-		cd lua-cjson-${lua_cjson_Ver}
-		make
-		make install
-		cd ..
-		rm -rf lua-cjson-${lua_cjson_Ver}
-	fi
-}
 Install_LuaJIT()
 {
-	if [ ! -d '/usr/local/include/luajit-2.0' ];then	        
-		wget -O LuaJIT-${lua_Jit_Ver}.zip https://github.com/leitbogioro/Crack_BT_Panel/raw/master/installer_components/LuaJIT-${lua_Jit_Ver}.zip -T 20
-		unzip LuaJIT-${lua_Jit_Ver}.zip
-		cd LuaJIT-${lua_Jit_Ver}
+	if [ ! -d '/usr/local/include/luajit-2.0' ];then
+		wget -c -O LuaJIT-2.0.4.tar.gz ${download_Url}/install/src/LuaJIT-2.0.4.tar.gz -T 10
+		tar xvf LuaJIT-2.0.4.tar.gz
+		cd LuaJIT-2.0.4
 		make linux
 		make install
 		cd ..
 		rm -rf LuaJIT-*
 		export LUAJIT_LIB=/usr/local/lib
 		export LUAJIT_INC=/usr/local/include/luajit-2.0/
-		ln -sf /usr/local/lib/libluajit-5.1.so.2 /lib64/libluajit-5.1.so.2
+		ln -sf /usr/local/lib/libluajit-5.1.so.2 /usr/local/lib64/libluajit-5.1.so.2
 		echo "/usr/local/lib" >> /etc/ld.so.conf
 		ldconfig
 	fi
 }
-Nginx_Waf(){
-	cat > ${Setup_Path}/conf/luawaf.conf<<EOF
-lua_shared_dict limit 10m;
-lua_package_path "/www/server/nginx/waf/?.lua";
-init_by_lua_file  /www/server/nginx/waf/init.lua;
-access_by_lua_file /www/server/nginx/waf/waf.lua;
-EOF
-	mkdir -p /www/wwwlogs/waf
-	chown www.www /www/wwwlogs/waf
-	chmod 744 /www/wwwlogs/waf
-	mkdir -p /www/server/panel/vhost
-	wget -O waf.zip ${download_Url}/install/waf/waf.zip
-	unzip -o waf.zip -d $Setup_Path/ > /dev/null
-	if [ ! -d "/www/server/panel/vhost/wafconf" ];then
-		mv $Setup_Path/waf/wafconf /www/server/panel/vhost/wafconf
-	fi
-	cd ${Setup_Path}
-	rm -f src.tar.gz
-	CheckPHPVersion
-	sed -i "s/#limit_conn_zone.*/limit_conn_zone \$binary_remote_addr zone=perip:10m;\n\tlimit_conn_zone \$server_name zone=perserver:10m;/" ${Setup_Path}/conf/nginx.conf
-	sed -i "s/mime.types;/mime.types;\n\t\tinclude proxy.conf;\n/" ${Setup_Path}/conf/nginx.conf
-	#if [ "${nginx_version}" == "1.12.2" ] || [ "${nginx_version}" == "openresty" ] || [ "${nginx_version}" == "1.14.2" ];then
-	sed -i "s/mime.types;/mime.types;\n\t\t#include luawaf.conf;\n/" ${Setup_Path}/conf/nginx.conf
-	#fi
-}
-CheckPHPVersion()
+Install_cjson()
 {
-	PHPVersion=""
-	for phpVer in 52 53 54 55 56 70 71 72 73;
-	do
-		if [ -d "/www/server/php/${phpVer}/bin" ]; then
-			PHPVersion=${phpVer}
-		fi
-	done
-
-	if [ "${PHPVersion}" != '' ];then
-		\cp -r -a ${Setup_Path}/conf/enable-php-${PHPVersion}.conf ${Setup_Path}/conf/enable-php.conf
+	if [ ! -f /usr/local/lib/lua/5.1/cjson.so ];then
+		wget -O lua-cjson-2.1.0.tar.gz $download_Url/install/src/lua-cjson-2.1.0.tar.gz -T 20
+		tar xvf lua-cjson-2.1.0.tar.gz
+		rm -f lua-cjson-2.1.0.tar.gz
+		cd lua-cjson-2.1.0
+		make
+		make install
+		cd ..
+		rm -rf lua-cjson-2.1.0
 	fi
 }
-
 Download_Src(){
-	if [ "${version}" == "1.15" ] || [ "${version}" == "tengine" ] || [ "${version}" == "1.16" ]; then
-		opensslVer="1.1.1d"
-	else
-		opensslVer="1.0.2s"
-	fi
-	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 15
-	tar -zxvf openssl.tar.gz
-	mv openssl-${opensslVer} openssl
-	rm -f openssl.tar.gz
-
-        wget -O pcre-${pcre_Ver}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcre_Ver}.tar.gz -T 15
-	tar -zxvf pcre-${pcre_Ver}.tar.gz
-	rm -f pcre-${pcre_Ver}.tar.gz
-
-	wget -O ngx_cache_purge.tar.gz http://labs.frickle.com/files/ngx_cache_purge-${ngx_cache_purge_Ver}.tar.gz -T 15
-	tar -zxvf ngx_cache_purge.tar.gz
-	mv ngx_cache_purge-${ngx_cache_purge_Ver} ngx_cache_purge
-	rm -f ngx_cache_purge.tar.gz
-
-	wget -O nginx-sticky-module.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/nginx-sticky-module.zip -T 15
-	unzip nginx-sticky-module.zip
-	rm -f nginx-sticky-module.zip
-
-	wget -O nginx-http-concat.tar.gz https://github.com/alibaba/nginx-http-concat/archive/1.2.2.tar.gz -T 15
-	tar -zxvf nginx-http-concat.tar.gz
-	mv nginx-http-concat-1.2.2 nginx-http-concat
-	rm -f nginx-http-concat.zip pax_global_header
-
-	#lua_nginx_module
-	wget -c -O lua-nginx-module-${LuaModVer}.zip https://github.com/openresty/lua-nginx-module/archive/v${LuaModVer}.zip -T 15
-	unzip lua-nginx-module-${LuaModVer}.zip
-	mv lua-nginx-module-${LuaModVer} lua_nginx_module
-	rm -f lua-nginx-module-${LuaModVer}.zip pax_global_header
-	
-	#ngx_devel_kit
-	wget -c -O ngx_devel_kit-${NgxDevelKitVer}.zip https://github.com/simplresty/ngx_devel_kit/archive/v${NgxDevelKitVer}.zip -T 15
-	unzip ngx_devel_kit-${NgxDevelKitVer}.zip
-	mv ngx_devel_kit-${NgxDevelKitVer} ngx_devel_kit
-	rm -f ngx_devel_kit-${NgxDevelKitVer}.zip	
-}
-
-Install_Nginx(){
-	if [ "${actionType}" == "install" ];then
-		Uninstall_Nginx
-		System_Lib
-		Run_User="www"
-		wwwUser=$(cat /etc/passwd|grep www)
-		if [ "${wwwUser}" == "" ];then
-			groupadd ${Run_User}
-			useradd -s /sbin/nologin -g ${Run_User} ${Run_User}
-		fi
-		mkdir -p ${Setup_Path}
-		rm -rf ${Setup_Path}/*
-	fi
+	mkdir -p ${Setup_Path}
 	cd ${Setup_Path}
 	rm -rf ${Setup_Path}/src
-
 	if [ "${version}" == "tengine" ] || [ "${version}" == "openresty" ]; then
 		wget -O ${Setup_Path}/src.tar.gz ${download_Url}/src/${version}-${nginxVersion}.tar.gz -T20
 		tar -xvf src.tar.gz
@@ -241,58 +119,96 @@ Install_Nginx(){
 		tar -xvf src.tar.gz
 		mv nginx-${nginxVersion} src
 	fi
-	rm -f src.tar.gz
+
 	cd src
+
+	TLSv13_NGINX=$(echo ${nginxVersion}|tr -d '.'|cut -c 1-3)
+	if [ "${TLSv13_NGINX}" -ge "115" ] && [ "${TLSv13_NGINX}" != "181" ];then
+		opensslVer="1.1.1d"
+	else
+		opensslVer="1.0.2t"
+	fi
+	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 15
+	tar -zxvf openssl.tar.gz
+	mv openssl-${opensslVer} openssl
+	rm -f openssl.tar.gz
+
+	pcre_version="8.43"
+    wget -O pcre-$pcre_version.tar.gz ${download_Url}/src/pcre-$pcre_version.tar.gz
+	tar zxf pcre-$pcre_version.tar.gz
+
+	wget -O ngx_cache_purge.tar.gz ${download_Url}/src/ngx_cache_purge-2.3.tar.gz
+	tar -zxvf ngx_cache_purge.tar.gz
+	mv ngx_cache_purge-2.3 ngx_cache_purge
+	rm -f ngx_cache_purge.tar.gz
+
+	wget -O nginx-sticky-module.zip ${download_Url}/src/nginx-sticky-module.zip
+	unzip -o nginx-sticky-module.zip
+	rm -f nginx-sticky-module.zip
+
+	wget -O nginx-http-concat.zip ${download_Url}/src/nginx-http-concat-1.2.2.zip
+	unzip -o nginx-http-concat.zip
+	mv nginx-http-concat-1.2.2 nginx-http-concat
+	rm -f nginx-http-concat.zip
+
+	#lua_nginx_module
+	LuaModVer="0.10.13"
+	wget -c -O lua-nginx-module-${LuaModVer}.zip ${download_Url}/src/lua-nginx-module-${LuaModVer}.zip
+	unzip -o lua-nginx-module-${LuaModVer}.zip
+	mv lua-nginx-module-${LuaModVer} lua_nginx_module
+	rm -f lua-nginx-module-${LuaModVer}.zip
 	
+	#ngx_devel_kit
+	NgxDevelKitVer="0.3.1"
+	wget -c -O ngx_devel_kit-${NgxDevelKitVer}.zip ${download_Url}/src/ngx_devel_kit-${NgxDevelKitVer}.zip
+	unzip -o ngx_devel_kit-${NgxDevelKitVer}.zip
+	mv ngx_devel_kit-${NgxDevelKitVer} ngx_devel_kit
+	rm -f ngx_devel_kit-${NgxDevelKitVer}.zip	
+
+	if [ "${Is_64bit}" = "64" ]; then
+		if [ "${version}" == "1.15" ] || [ "${version}" == "1.17" ] || [ "${version}" == "tengine" ];then
+			NGX_PAGESPEED_VAR="1.13.35.2"
+			wget -O ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz ${download_Url}/src/ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
+			tar -xvf ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
+			mv ngx-pagespeed-${NGX_PAGESPEED_VAR} ngx-pagespeed
+			rm -f ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
+		fi
+	fi
+}
+Install_Configure(){
+	Run_User="www"
+	wwwUser=$(cat /etc/passwd|grep www)
+	if [ "${wwwUser}" == "" ];then
+		groupadd ${Run_User}
+		useradd -s /sbin/nologin -g ${Run_User} ${Run_User}
+	fi
+
+	[ -f "/www/server/panel/install/nginx_prepare.sh" ] && . /www/server/panel/install/nginx_prepare.sh
+	[ -f "/www/server/panel/install/nginx_configure.pl" ] && ADD_EXTENSION=$(cat /www/server/panel/install/nginx_configure.pl)
+	[ -f "/usr/local/lib/libjemalloc.so" ] && jemallocLD="--with-ld-opt="-ljemalloc""
+
+	if [ "${version}" == "1.8" ];then
+		ENABLE_HTTP2="--with-http_spdy_module"
+	else
+		ENABLE_HTTP2="--with-http_v2_module --with-stream --with-stream_ssl_module"
+	fi
+
+	if [ "${version}" == "openresty" ];then
+		ENABLE_LUA="--with-luajit"
+	else
+		ENABLE_LUA="--add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module"
+	fi
+
+	export LUAJIT_LIB=/usr/local/lib
+	export LUAJIT_INC=/usr/local/include/luajit-2.0/
 	export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH 
 
-	Set_Time
-	Download_Src
-	Install_Jemalloc
-	Install_LuaJIT
-	Install_cjson
-
-	if [ -f  "/www/server/panel/install/configure.pl" ]; then
-		Configure=$(cat /www/server/panel/install/configure.pl)
-		./configure ${Configure}
-	else
-		Install_Configure	
-	fi
+	./configure --user=www --group=www --prefix=${Setup_Path} ${ENABLE_LUA} --add-module=${Setup_Path}/src/ngx_cache_purge --add-module=${Setup_Path}/src/nginx-sticky-module --with-openssl=${Setup_Path}/src/openssl --with-pcre=pcre-${pcre_version} ${ENABLE_HTTP2} --with-http_stub_status_module --with-http_ssl_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-cc-opt="-Wno-error" ${jemallocLD} ${ENABLE_NGX_PAGESPEED} ${ADD_EXTENSION}
 
 	make -j${cpuCore}
-
-	if [ "${actionType}" == "update" ]; then
-		if [ "${nginxVersion}" = "openresty" ]; then
-			make install
-			echo -e "done"
-			nginx -v
-			echo "${nginxVersion}" > ${Setup_Path}/version.pl
-			rm -f ${Setup_Path}/version_check.pl
-			exit;
-		fi
-		if [ ! -f ${Setup_Path}/src/objs/nginx ]; then
-			exit;
-		fi
-		sleep 1
-		/etc/init.d/nginx stop
-		mv -f ${Setup_Path}/sbin/nginx ${Setup_Path}/sbin/nginxBak
-		\cp -rfp ${Setup_Path}/src/objs/nginx ${Setup_Path}/sbin/
-		sleep 1
-		/etc/init.d/nginx start
-		rm -rf ${Setup_Path}/src
-		nginx -v
-		echo "${nginxVersion}" > ${Setup_Path}/version.pl
-		rm -f ${Setup_Path}/version_check.pl
-		if [ "${version}" == "tengine" ]; then
-			echo "2.2.4(2.3.0)" > ${Setup_Path}/version_check.pl
-		fi
-		exit
-	fi
-
+}
+Install_Nginx(){
 	make install
-
-	cd ..
-
 	if [ "${version}" == "openresty" ];then
 		ln -sf /www/server/nginx/nginx/html /www/server/nginx/html
 		ln -sf /www/server/nginx/nginx/conf /www/server/nginx/conf
@@ -302,15 +218,53 @@ Install_Nginx(){
 
 	if [ ! -f "${Setup_Path}/sbin/nginx" ];then
 		echo '========================================================'
-		echo -e "\033[31mERROR: nginx-${nginxVersion} installation failed.\033[0m";
-		echo -e "\033[31m安装失败，请截图以上报错信息发帖至论坛www.bt.cn/bbs求助\033[0m"
+		GetSysInfo
+		echo -e "ERROR: nginx-${nginxVersion} installation failed.";
+		echo -e "安装失败，请截图以上报错信息发帖至论坛www.bt.cn/bbs求助"
 		rm -rf ${Setup_Path}
-		exit 0;
+		exit 1;
 	fi
 
 	ln -sf ${Setup_Path}/sbin/nginx /usr/bin/nginx
 	rm -f ${Setup_Path}/conf/nginx.conf
 
+	cd ${Setup_Path}
+	rm -f src.tar.gz
+}
+Update_Nginx(){
+	if [ "${nginxVersion}" = "openresty" ]; then
+		make install
+		echo -e "done"
+		nginx -v
+		echo "${nginxVersion}" > ${Setup_Path}/version.pl
+		rm -f ${Setup_Path}/version_check.pl
+		exit;
+	fi
+	if [ ! -f ${Setup_Path}/src/objs/nginx ]; then
+		echo '========================================================'
+		GetSysInfo
+		echo -e "ERROR: nginx-${nginxVersion} installation failed.";
+		echo -e "升级失败，请截图以上报错信息发帖至论坛www.bt.cn/bbs求助"
+		rm -rf ${Setup_Path}
+		exit 0;
+	fi
+	sleep 1
+	/etc/init.d/nginx stop
+	mv -f ${Setup_Path}/sbin/nginx ${Setup_Path}/sbin/nginxBak
+	\cp -rfp ${Setup_Path}/src/objs/nginx ${Setup_Path}/sbin/
+	sleep 1
+	/etc/init.d/nginx start
+	rm -rf ${Setup_Path}/src
+	nginx -v
+
+	echo "${nginxVersion}" > ${Setup_Path}/version.pl
+	rm -f ${Setup_Path}/version_check.pl
+	if [ "${version}" == "tengine" ]; then
+		echo "2.2.4(${tengine})" > ${Setup_Path}/version_check.pl
+	fi
+	exit
+}
+Set_Conf(){
 	Default_Website_Dir=$Root_Path'/wwwroot/default'
 	mkdir -p ${Default_Website_Dir}
 	mkdir -p ${Root_Path}/wwwlogs
@@ -336,7 +290,7 @@ EOF
  	echo > /www/server/nginx/conf/enable-php-00.conf
 	for phpV in 52 53 54 55 56 70 71 72 73 74 75
 	do
-	cat > ${Setup_Path}/conf/enable-php-${phpV}.conf<<EOF
+		cat > ${Setup_Path}/conf/enable-php-${phpV}.conf<<EOF
 	location ~ [^/]\.php(/|$)
 	{
 		try_files \$uri =404;
@@ -346,7 +300,7 @@ EOF
 		include pathinfo.conf;
 	}
 EOF
-	cat >> ${Root_Path}/server/panel/vhost/nginx/phpfpm_status.conf<<EOF
+		cat >> ${Root_Path}/server/panel/vhost/nginx/phpfpm_status.conf<<EOF
 	location /phpfpm_${phpV}_status {
 		fastcgi_pass unix:/tmp/php-cgi-${phpV}.sock;
 		include fastcgi_params;
@@ -355,6 +309,7 @@ EOF
 EOF
 	done
 	echo \} >> ${Root_Path}/server/panel/vhost/nginx/phpfpm_status.conf
+	
 	cat > ${Setup_Path}/conf/proxy.conf<<EOF
 proxy_temp_path ${Setup_Path}/proxy_temp_dir;
 proxy_cache_path ${Setup_Path}/proxy_cache_dir levels=1:2 keys_zone=cache_one:20m inactive=1d max_size=5g;
@@ -369,27 +324,59 @@ proxy_temp_file_write_size 128k;
 proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
 proxy_cache cache_one;
 EOF
+	
+	cat > ${Setup_Path}/conf/luawaf.conf<<EOF
+lua_shared_dict limit 10m;
+lua_package_path "/www/server/nginx/waf/?.lua";
+init_by_lua_file  /www/server/nginx/waf/init.lua;
+access_by_lua_file /www/server/nginx/waf/waf.lua;
+EOF
+
+	mkdir -p /www/wwwlogs/waf
+	chown www.www /www/wwwlogs/waf
+	chmod 744 /www/wwwlogs/waf
+	mkdir -p /www/server/panel/vhost
+	wget -O waf.zip ${download_Url}/install/waf/waf.zip
+	unzip -o waf.zip -d $Setup_Path/ > /dev/null
+	if [ ! -d "/www/server/panel/vhost/wafconf" ];then
+		mv $Setup_Path/waf/wafconf /www/server/panel/vhost/wafconf
+	fi
+
 	sed -i "s#include vhost/\*.conf;#include /www/server/panel/vhost/nginx/\*.conf;#" ${Setup_Path}/conf/nginx.conf
 	sed -i "s#/www/wwwroot/default#/www/server/phpmyadmin#" ${Setup_Path}/conf/nginx.conf
 	sed -i "/pathinfo/d" ${Setup_Path}/conf/enable-php.conf
+	sed -i "s/#limit_conn_zone.*/limit_conn_zone \$binary_remote_addr zone=perip:10m;\n\tlimit_conn_zone \$server_name zone=perserver:10m;/" ${Setup_Path}/conf/nginx.conf
+	sed -i "s/mime.types;/mime.types;\n\t\tinclude proxy.conf;\n/" ${Setup_Path}/conf/nginx.conf
+	#if [ "${nginx_version}" == "1.12.2" ] || [ "${nginx_version}" == "openresty" ] || [ "${nginx_version}" == "1.14.2" ];then
+	sed -i "s/mime.types;/mime.types;\n\t\t#include luawaf.conf;\n/" ${Setup_Path}/conf/nginx.conf
+	#fi
 
-	Nginx_Waf
-	CheckPHPVersion
+	PHPVersion=""
+	for phpVer in 52 53 54 55 56 70 71 72 73;
+	do
+		if [ -d "/www/server/php/${phpVer}/bin" ]; then
+			PHPVersion=${phpVer}
+		fi
+	done
+
+	if [ "${PHPVersion}" ];then
+		\cp -r -a ${Setup_Path}/conf/enable-php-${PHPVersion}.conf ${Setup_Path}/conf/enable-php.conf
+	fi
 
 	wget -O /etc/init.d/nginx ${download_Url}/init/nginx.init -T 5
 	chmod +x /etc/init.d/nginx
-	Service_Add
- 	/etc/init.d/nginx start
-
- 	if [ "${version}" == "tengine" ]; then
- 		echo "-Tengine2.2.3" > ${Setup_Path}/version.pl
- 		echo "2.2.4(2.3.0)" > ${Setup_Path}/version_check.pl
- 	elif [ "${version}" == "openresty" ]; then
- 		echo "openresty" > ${Setup_Path}/version.pl
- 	else
- 		echo "${nginxVersion}" > ${Setup_Path}/version.pl
- 	fi
 }
+Set_Version(){
+	if [ "${version}" == "tengine" ]; then
+		echo "-Tengine2.2.3" > ${Setup_Path}/version.pl
+		echo "2.2.4(${tengine})" > ${Setup_Path}/version_check.pl
+	elif [ "${version}" == "openresty" ]; then
+		echo "openresty" > ${Setup_Path}/version.pl
+	else
+		echo "${nginxVersion}" > ${Setup_Path}/version.pl
+	fi
+}
+
 Uninstall_Nginx()
 {
 	if [ -f "/etc/init.d/nginx" ];then
@@ -406,23 +393,57 @@ actionType=$1
 version=$2
 
 if [ "${actionType}" == "uninstall" ]; then
+	Service_Del
 	Uninstall_Nginx
-elif [ "${actionType}" == "install" ] || [ "${actionType}" == "update" ] ; then
-	nginxVersion=${tengine}
-	if [ "${version}" == "1.10" ] || [ "${version}" == "1.12" ]; then
-		nginxVersion=${nginx12}
-	elif [ "${version}" == "1.14" ]; then
-		nginxVersion=${nginx14}
-	elif [ "${version}" == "1.15" ]; then
-		nginxVersion=${nginx15}
-	elif [ "${version}" == "1.16" ]; then
-		nginxVersion=${nginx16}
-	elif [ "${version}" == "1.8" ]; then
-		nginxVersion=${nginx108}
-	elif [ "${version}" == "openresty" ]; then
+else
+	case "${version}" in
+		'1.10')
+		nginxVersion=${nginx_112}
+		;;
+		'1.12')
+		nginxVersion=${nginx_112}
+		;;
+		'1.14')
+		nginxVersion=${nginx_114}
+		;;		
+		'1.15')
+		nginxVersion=${nginx_115}
+		;;
+		'1.16')
+		nginxVersion=${nginx_116}
+		;;
+		'1.17')
+		nginxVersion=${nginx_117}
+		;;
+		'1.8')
+		nginxVersion=${nginx_108}
+		;;
+		'openresty')
 		nginxVersion=${openresty}
-	else
+		;;
+		*)
+		nginxVersion=${tengine}
 		version="tengine"
+		;;
+	esac
+	if [ "${actionType}" == "install" ];then
+		if [ -f "/www/server/nginx/sbin/nginx" ]; then
+			Uninstall_Nginx
+		fi
+		System_Lib
+		Install_Jemalloc
+		Install_LuaJIT
+		Install_cjson
+		Download_Src
+		Install_Configure
+		Install_Nginx
+		Set_Conf
+		Set_Version
+		Service_Add
+		/etc/init.d/nginx start
+	elif [ "${actionType}" == "update" ];then
+		Download_Src
+		Install_Configure
+		Update_Nginx
 	fi
-	Install_Nginx
 fi
