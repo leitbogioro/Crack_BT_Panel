@@ -123,9 +123,9 @@ Download_Src(){
 
 	TLSv13_NGINX=$(echo ${nginxVersion}|tr -d '.'|cut -c 1-3)
 	if [ "${TLSv13_NGINX}" -ge "115" ] && [ "${TLSv13_NGINX}" != "181" ];then
-		opensslVer="1.1.1d"
+		opensslVer="1.1.1g"
 	else
-		opensslVer="1.0.2t"
+		opensslVer="1.0.2u"
 	fi
 	wget -O openssl.tar.gz https://www.openssl.org/source/openssl-${opensslVer}.tar.gz -T 15
 	tar -zxvf openssl.tar.gz
