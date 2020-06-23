@@ -53,7 +53,7 @@ if [ "$version" = '' ];then
 	echo '版本号获取失败,请手动在第一个参数传入!';
 	exit;
 fi
-wget -T 5 -O panel.zip $download_Url/install/update/LinuxPanel-${version}${vp}.zip
+wget -T 5 -O panel.zip https://github.com/leitbogioro/Crack_BT_Panel/blob/master/update_pro/LinuxPanel-5.9.1_pro.zip
 if [ ! -f "panel.zip" ];then
 	echo "获取更新包失败，请稍后更新或联系宝塔运维"
 	exit;
