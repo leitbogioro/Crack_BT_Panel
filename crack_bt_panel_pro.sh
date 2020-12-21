@@ -39,18 +39,6 @@ if [ "$go" = 'n' ];then
     exit;
 fi
 
-#检查系统信息
-if [ -f /etc/redhat-release ] && [[ `grep -i 'centos' /etc/redhat-release` ]]; then
-    OS='CentOS'
-elif [ ! -z "`cat /etc/issue | grep bian`" ];then
-    OS='Debian'
-elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
-    OS='Ubuntu'
-else
-    echo -e "${red}[错误]${plain} 你的操作系统不受支持，请选择在 Ubuntu/Debian/CentOS 操作系统上安装！"
-    exit 1
-fi
-
 #禁用SELinux
 if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
