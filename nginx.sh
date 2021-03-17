@@ -132,7 +132,7 @@ Download_Src(){
 	mv openssl-${opensslVer} openssl
 	rm -f openssl.tar.gz
 
-	pcre_version="8.44"
+	pcre_version="8.43"
         wget -O pcre-$pcre_version.tar.gz ${download_Url}/src/pcre-$pcre_version.tar.gz
 	tar zxf pcre-$pcre_version.tar.gz
 
