@@ -24,7 +24,7 @@ Is_64bit=`getconf LONG_BIT`
 opensslVersion="1.1.1j"
 curlVersion="7.75.0"
 freetypeVersion="2.10.4"
-pcreVersion="8.44"
+pcreVersion="8.43"
 
 Install_Sendmail()
 {
@@ -265,7 +265,7 @@ Install_Lib()
 Install_Lib
 Install_Openssl
 Install_Pcre
-Install_Curl
+#Install_Curl
 Install_Mhash
 Install_Libmcrypt
 Install_Mcrypt	
