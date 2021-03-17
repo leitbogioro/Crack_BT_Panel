@@ -265,7 +265,7 @@ Install_Lib()
 Install_Lib
 Install_Openssl
 Install_Pcre
-#Install_Curl
+Install_Curl
 Install_Mhash
 Install_Libmcrypt
 Install_Mcrypt	
