@@ -22,7 +22,7 @@ run_path="/root"
 Is_64bit=`getconf LONG_BIT`
 
 opensslVersion="1.1.1d"
-curlVersion="7.66.0"
+curlVersion="7.75.0"
 freetypeVersion="2.10.0"
 pcreVersion="8.43"
 
@@ -265,7 +265,7 @@ Install_Lib()
 Install_Lib
 Install_Openssl
 Install_Pcre
-#Install_Curl
+Install_Curl
 Install_Mhash
 Install_Libmcrypt
 Install_Mcrypt	
