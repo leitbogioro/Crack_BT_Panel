@@ -175,8 +175,11 @@ vip_plugin(){
     # 默认安装所有付费高级插件
     cd /www/server/panel/plugin
     if [ ! -d "/masterslave" ]; then
-        wget -O vip_plugin.zip https://git.io/fj0VQ
-        unzip vip_plugin.zip
+        #wget -O vip_plugin.zip https://git.io/fj0VQ
+		while true;do
+            wget -O vip_plugin.zip -T 15 -c https://git.io/fj0VQ && break
+        done
+		unzip vip_plugin.zip
         rm -f vip_plugin.zip
     fi
     cd /root
