@@ -15,6 +15,7 @@
 <code>wget --no-check-certificate -qO uninstall.sh https://git.io/JeuIm && bash uninstall.sh</code>
 
 ## 更新日志
+- Nginx 安装器 openssl 主线版本已升级至 1.1.1k；
 - Debian/Ubuntu 下“unrar”组件不提供安装，故改为安装“unrar-free”；
 - 由于官方面板已升级到5.9.2，旧破解方法失效，故回滚至5.9.1破解版本；
 - Nginx 安装器 openssl 主线版本已升级至 1.1.1g 和 1.0.2u；
