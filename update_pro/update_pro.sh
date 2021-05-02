@@ -53,7 +53,10 @@ if [ "$version" = '' ];then
 	echo '版本号获取失败,请手动在第一个参数传入!';
 	exit;
 fi
-wget --no-check-certificate -T 5 -O panel.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro/LinuxPanel-5.9.1_pro.zip
+#wget --no-check-certificate -T 5 -O panel.zip https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro/LinuxPanel-5.9.1_pro.zip
+while true;do
+        wget -O panel.zip -T 15 -c https://raw.githubusercontent.com/leitbogioro/Crack_BT_Panel/master/update_pro/LinuxPanel-5.9.1_pro.zip && break
+done
 if [ ! -f "panel.zip" ];then
 	echo "获取更新包失败，请稍后更新或联系宝塔运维"
 	exit;
