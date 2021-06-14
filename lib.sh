@@ -45,7 +45,7 @@ Install_Sendmail()
 Install_Curl()
 {
 	if [ ! -f "/usr/local/curl/bin/curl" ];then
-		wget https://curl.haxx.se/download/curl-${curlVersion}.tar.gz
+		wget https://curl.haxx.se/download/curl-${curlVersion}.tar.gz -T 20
 		tar -zxf curl-${curlVersion}.tar.gz
 		cd curl-${curlVersion}
 		./configure --prefix=/usr/local/curl --enable-ares --without-nss --with-ssl=/usr/local/openssl
@@ -77,7 +77,7 @@ Install_Openssl()
 Install_Pcre(){
 	Cur_Pcre_Ver=`pcre-config --version|grep '^8.' 2>&1`
 	if [ "$Cur_Pcre_Ver" == "" ];then
-		wget -O pcre-${pcreVersion}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcreVersion}.tar.gz -T 5
+		wget -O pcre-${pcreVersion}.tar.gz https://ftp.pcre.org/pub/pcre/pcre-${pcreVersion}.tar.gz -T 20
 		tar zxf pcre-${pcreVersion}.tar.gz
 		rm -f pcre-${pcreVersion}.tar.gz
 		cd pcre-${pcreVersion}
