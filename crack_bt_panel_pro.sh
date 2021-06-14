@@ -160,6 +160,10 @@ components(){
         wget -O nginx.sh -T 15 -c https://git.io/fj0O9 && break
     done
     mv nginx.sh /www/server/panel/install
+    while true;do
+        wget -O php.sh -T 15 -c https://git.io/Jnfdk && break
+    done
+    mv php.sh /www/server/panel/install
     if [ -f /www/server/panel/install/install_soft.sh ]; then
         rm -rf install_soft.sh
         #wget -O install_soft.sh https://git.io/fj03A
