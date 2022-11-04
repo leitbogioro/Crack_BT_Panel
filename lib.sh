@@ -21,7 +21,7 @@ mkdir -p /www/server
 run_path="/root"
 Is_64bit=`getconf LONG_BIT`
 
-opensslVersion="1.1.1q"
+opensslVersion="1.1.1s"
 curlVersion="7.77.0"
 freetypeVersion="2.10.4"
 pcreVersion="8.44"
